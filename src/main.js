@@ -11,6 +11,8 @@ let app = createApp(App);
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,8 +28,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const firebaseAuth = initializeApp(firebaseConfig);
+
 export const auth = getAuth(firebaseAuth);
-app.use(router).use(ElementPlus).mount("#app");
+export const storage = getStorage(firebaseAuth);
+export const db = getFirestore(firebaseAuth);
+
+app.use(router);
+app.use(ElementPlus);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
+app.mount("#app");

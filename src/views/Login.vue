@@ -4,12 +4,12 @@
       <span class="logo">Lama Chat</span>
       <span class="title">Login</span>
       <form>
-        <input type="email" placeholder="email" />
-        <input type="password" placeholder="password" />
+        <input v-model="email" type="email" placeholder="email" />
+        <input v-model="password" type="password" placeholder="password" />
         <button @click="handleSubmit">Sign in</button>
-        <div>
+        <div v-if="err">
           <el-icon :size="18" color="red"><Warning /></el-icon
-          ><span v-if="err">Something went wrong</span>
+          ><span>Something went wrong</span>
         </div>
       </form>
       <p>
@@ -34,16 +34,20 @@ export default {
     let email = ref("");
     let password = ref("");
     const router = useRouter();
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
       e.preventDefault();
-      try {
-        await signInWithEmailAndPassword(auth, email.value, password.value);
-        router.push("/");
-      } catch (err) {
-        err.value = true;
-      }
+      signInWithEmailAndPassword(auth, email.value, password.value)
+        .then((user) => {
+          console.log(user);
+          router.push("/");
+        })
+        .catch((er) => {
+          console.log(er.message);
+          err.value = true;
+        });
     };
-    return { err, handleSubmit };
+
+    return { err, handleSubmit, email, password };
   },
 };
 </script>

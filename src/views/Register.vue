@@ -18,7 +18,10 @@
           <span>Add an avatar</span>
         </label> -->
         <button>Sign up</button>
-        <span>Something went wrong</span>
+        <div v-if="err">
+          <el-icon :size="18" color="red"><Warning /></el-icon
+          ><span>Something went wrong</span>
+        </div>
       </form>
       <p>
         You do have an account?<span class="register"
@@ -38,17 +41,33 @@ export default {
     let email = ref("");
     let password = ref("");
     onMounted(() => {});
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
       e.preventDefault();
-      await createUserWithEmailAndPassword(auth, email.value, password.value);
-      console.log("auth", auth);
+      createUserWithEmailAndPassword(auth, email.value, password.value).then(
+        (signUp) => {
+          console.log("signup: ", signUp);
+        }
+      );
     };
 
     return { email, password, handleSubmit };
   },
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
+.title {
+  font-weight: bold;
+}
+form > div > span {
+  color: red;
+  font-size: 16px;
+}
+form > div {
+  display: flex;
+  align-items: center;
+  width: 175px;
+  justify-content: space-between;
+}
 .register {
   font-size: larger;
   text-decoration: underline;

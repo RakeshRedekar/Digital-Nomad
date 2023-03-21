@@ -12,6 +12,12 @@ const routes = [
     name: "Register",
     component: () => import("@/views/Register.vue"),
   },
+  {
+    path: "/home",
+    name: "Wall",
+    component: () => import("@/views/Wall.vue"),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({

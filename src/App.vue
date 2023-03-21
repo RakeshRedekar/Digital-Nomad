@@ -1,6 +1,6 @@
 <template>
-  <div id="app" class="h-screen bg-gray-100 overflow-hidden">
-    <router-view :key="$route.path"/>
+  <div id="app">
+    <router-view :key="$route.path" />
   </div>
 </template>
 
@@ -10,5 +10,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
