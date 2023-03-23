@@ -6,6 +6,7 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "./style.scss";
+import { store } from "./store";
 
 let app = createApp(App);
 // Import the functions you need from the SDKs you need
@@ -30,10 +31,11 @@ const firebaseConfig = {
 const firebaseAuth = initializeApp(firebaseConfig);
 
 export const auth = getAuth(firebaseAuth);
-export const storage = getStorage(firebaseAuth);
-export const db = getFirestore(firebaseAuth);
+export const storage = getStorage();
+export const db = getFirestore();
 
 app.use(router);
+app.use(store);
 app.use(ElementPlus);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);

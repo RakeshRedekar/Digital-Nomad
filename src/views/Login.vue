@@ -24,27 +24,27 @@
 
 <script>
 import { ref } from "vue";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../main";
+// import { signInWithEmailAndPassword } from "firebase/auth";
+// import { auth } from "../main";
+import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 export default {
   name: "login",
   setup() {
-    let err = ref(true);
+    let err = ref(false);
     let email = ref("");
     let password = ref("");
+    let store = useStore();
     const router = useRouter();
     const handleSubmit = (e) => {
       e.preventDefault();
-      signInWithEmailAndPassword(auth, email.value, password.value)
-        .then((user) => {
-          console.log(user);
-          router.push("/");
+      store
+        .dispatch("loginModule/login", {
+          email: email.value,
+          password: password.value,
         })
-        .catch((er) => {
-          console.log(er.message);
-          err.value = true;
-        });
+        .then(() => router.push("/home"))
+        .catch((err) => console.log(err));
     };
 
     return { err, handleSubmit, email, password };

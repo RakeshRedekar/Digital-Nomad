@@ -1,54 +1,116 @@
 <template>
-  <div class="flex flex-col">
-    <div class="p-5 bg-white mt-5 rounded-t-2xl shadow-sm">
-      <div class="flex items-center space-x-2">
-        <img class="rounded-full icon" :src="image" width="40" height="40" />
-        <div>
-          <p class="font-medium">{{ name }}</p>
-          <p v-if="timestamp" class="text-xs text-gray-400">
-            {{ new Date(timestamp?.toDate()).toLocaleString() }}
-          </p>
-          <p v-else class="text-xs text-gray-400">Loading</p>
+  <div class="post">
+    <div class="post_heading">
+      <el-avatar :size="50" :fit="fit" src="src/images/Screenshot.png" />
+      <div class="title_left">
+        <p><b>Rakesh Redekar&nbsp;</b>is at &nbsp;<b>Malaysia </b></p>
+        <p>Mar 11 2022</p>
+      </div>
+      <el-button class="follow_btn" type="success" plain
+        ><el-icon><Plus /></el-icon>&nbsp; Follow</el-button
+      >
+    </div>
+    <div class="post_body">
+      <p>
+        {{ postData.postDiscrip }}
+      </p>
+      <img class="post_body_img" :srcset="postData.postImg" />
+    </div>
+    <div class="post_footer">
+      <div class="footer_top">
+        <p>872 likes</p>
+        <p>24 comments</p>
+      </div>
+      <div class="footer_bottom">
+        <div class="footer_action">
+          <img
+            src="../../public/icons/reshot-icon-heart.svg
+          "
+          />
+          <p>Like</p>
         </div>
-      </div>
-
-      <p class="pt-4">{{ message }}</p>
-    </div>
-    <div v-if="postImage" class="relative h-56 md:h-96 bg-white">
-      <img :src="postImage" class="object-cover w-full" loading="lazy" />
-    </div>
-
-    <!-- Post Footer -->
-    <div
-      class="flex justify-between items-center rounded-b-2xl bg-white shadow-md text-gray-400 border-t"
-    >
-      <div class="inputIcon p-3 rounded-none rounded-bl-2xl">
-        <ThumbUpIcon class="h-4" />
-        <p class="text-xs sm:text-base">Like</p>
-      </div>
-
-      <div class="inputIcon p-3 rounded-none">
-        <ChatAltIcon class="h-4" />
-        <p class="text-xs sm:text-base">Comment</p>
-      </div>
-
-      <div class="inputIcon p-3 rounded-none rounded-br-2xl">
-        <ShareIcon class="h-4" />
-        <p class="text-xs sm:text-base">Share</p>
+        <div class="footer_action">
+          <el-icon size="25"><ChatLineSquare /></el-icon>
+          <p>Comment</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ChatAltIcon, ShareIcon, ThumbUpIcon } from "@heroicons/vue/outline";
 export default {
-  props: ["name", "message", "email", "timestamp", "image", "postImage"],
-  setup() {
-    return {};
+  name: "post",
+  props: ["postData"],
+  setup(props) {
+    console.log(props);
   },
-  components: { ChatAltIcon, ShareIcon, ThumbUpIcon },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.post {
+  width: 600px;
+  margin-top: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px grey;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.post_heading {
+  display: flex;
+}
+.title_left {
+  width: 350px;
+  margin: 0px 20px;
+}
+.title_left > p:first-child {
+  margin-top: 0px;
+  padding-top: 0px;
+  font-size: large;
+}
+.title_left > p:nth-child(2) {
+  margin-top: 0px;
+  padding-top: 0px;
+  font-size: small;
+  color: rgb(74, 74, 74);
+}
+.follow_btn {
+  float: right;
+}
+.post_body_img {
+  width: 100%;
+  max-height: 800px;
+}
+.footer_top {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  /* font-size: small; */
+  color: gray;
+  border-bottom: 1px solid gray;
+}
+.footer_bottom {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.footer_bottom img {
+  height: 30px;
+}
+.footer_action {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 10px;
+  width: 200px;
+  justify-content: center;
+  margin-top: 5px;
+}
+.footer_action:hover {
+  background-color: aliceblue;
+}
+.footer_action p {
+  margin: 0px;
+}
+</style>

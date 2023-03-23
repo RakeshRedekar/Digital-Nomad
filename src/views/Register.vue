@@ -4,7 +4,12 @@
       <span className="logo">Lama Chat</span>
       <span className="title">Register</span>
       <form @submit="handleSubmit">
-        <input required type="text" placeholder="display name" />
+        <input
+          required
+          v-model="displayName"
+          type="text"
+          placeholder="display name"
+        />
         <input v-model="email" required type="email" placeholder="email" />
         <input
           v-model="password"
@@ -32,25 +37,36 @@
   </div>
 </template>
 <script>
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../main";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, db } from "../main";
 import { onMounted, ref } from "vue";
+// import { ref } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
 export default {
   name: "register",
   setup() {
     let email = ref("");
+    let displayName = ref("");
     let password = ref("");
     onMounted(() => {});
     const handleSubmit = (e) => {
       e.preventDefault();
-      createUserWithEmailAndPassword(auth, email.value, password.value).then(
-        (signUp) => {
-          console.log("signup: ", signUp);
-        }
-      );
+      createUserWithEmailAndPassword(auth, email.value, password.value)
+        .then(function () {
+          updateProfile(auth.currentUser, {
+            displayName: displayName.value,
+          });
+        })
+        .then((signUp) => {
+          setDoc(doc(db, "users", signUp.user.uid), {
+            displayName: displayName.value,
+            uid: signUp.user.uid,
+            email: email.value,
+          });
+        });
     };
 
-    return { email, password, handleSubmit };
+    return { email, password, handleSubmit, displayName };
   },
 };
 </script>

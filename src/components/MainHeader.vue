@@ -87,9 +87,9 @@ export default {
   height: 25px;
 }
 .active {
-  color: red;
+  color: blue;
 }
 li.active {
-  border-bottom: 5px solid blue;
+  border-bottom: 3px solid blue;
 }
 </style>

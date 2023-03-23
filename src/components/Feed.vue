@@ -5,6 +5,7 @@
     <!-- Stories -->
 
     <InputBox />
+    <Posts />
 
     <!-- Input Box -->
   </div>
@@ -12,8 +13,9 @@
 
 <script>
 import InputBox from "./InputBox.vue";
+import Posts from "./Posts.vue";
 export default {
-  components: { InputBox },
+  components: { InputBox, Posts },
 };
 </script>
 
@@ -22,6 +24,8 @@ export default {
   width: 100vw;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   padding: 40px 0px;
 }
 </style>
