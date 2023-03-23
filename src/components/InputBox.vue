@@ -74,11 +74,10 @@ export default {
         timestamp: Timestamp.now(),
       };
       getDownloadURL(uploadTask.ref).then(async (downloadURL) => {
-        console.log("second");
+        data.postImg = downloadURL;
         await addDoc(collection(db, "posts"), {
           ...data,
-          postImg: downloadURL,
-        });
+        }).then(store.commit("homeModule/addPost", data));
         // await updateDoc(doc(db, "usersPosts", currentUser.uid), {
         //   messages: arrayUnion({
         //     id: uuid(),

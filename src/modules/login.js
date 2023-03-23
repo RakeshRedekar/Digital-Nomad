@@ -20,6 +20,10 @@ export const loginModule = {
     login({ commit }, data) {
       return signInWithEmailAndPassword(auth, data.email, data.password).then(
         (user) => {
+          localStorage.setItem(
+            "userToken",
+            JSON.stringify(user.user.accessToken)
+          );
           commit("setUser", user.user);
         }
       );

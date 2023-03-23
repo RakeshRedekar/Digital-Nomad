@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Post v-for="post in posts" :postData="post" :key="post.id" />
+    <Post
+      v-for="post in store.state.homeModule.posts"
+      :postData="post"
+      :key="post.id"
+    />
 
     <!-- Input Box -->
   </div>
@@ -8,27 +12,17 @@
 
 <script>
 import Post from "./Post.vue";
-import { db } from "../main";
-import { ref, onMounted } from "vue";
-import { collection, getDocs } from "firebase/firestore";
+import { onMounted } from "vue";
+import { useStore } from "vuex";
 export default {
   components: { Post },
   setup() {
-    let posts = ref([]);
+    let store = useStore();
     onMounted(() => {
-      getPosts();
+      store.dispatch("homeModule/getPosts");
     });
-    let getPosts = async () => {
-      let data = await getDocs(collection(db, "posts"));
 
-      data.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        posts.value.push({ ...doc.data(), docID: doc.id });
-        // console.log(doc.id, " => ", doc.data());
-      });
-      console.log("type", typeof posts.value, posts.value);
-    };
-    return { posts, getPosts };
+    return { store };
   },
 };
 </script>

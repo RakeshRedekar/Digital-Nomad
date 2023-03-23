@@ -4,7 +4,7 @@
       <el-avatar :size="50" :fit="fit" src="src/images/Screenshot.png" />
       <div class="title_left">
         <p><b>Rakesh Redekar&nbsp;</b>is at &nbsp;<b>Malaysia </b></p>
-        <p>Mar 11 2022</p>
+        <p>{{ gettingDate(postData.timestamp) }}</p>
       </div>
       <el-button class="follow_btn" type="success" plain
         ><el-icon><Plus /></el-icon>&nbsp; Follow</el-button
@@ -42,8 +42,14 @@
 export default {
   name: "post",
   props: ["postData"],
-  setup(props) {
-    console.log(props);
+  setup() {
+    let gettingDate = (timeInstance) => {
+      let postTime = timeInstance.toDate();
+      let temp = postTime.toString();
+      postTime = temp.slice(0, 21);
+      return postTime;
+    };
+    return { gettingDate };
   },
 };
 </script>

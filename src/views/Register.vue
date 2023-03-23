@@ -40,6 +40,7 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../main";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 // import { ref } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 export default {
@@ -48,22 +49,29 @@ export default {
     let email = ref("");
     let displayName = ref("");
     let password = ref("");
+    const router = useRouter();
     onMounted(() => {});
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
-      createUserWithEmailAndPassword(auth, email.value, password.value)
-        .then(function () {
-          updateProfile(auth.currentUser, {
-            displayName: displayName.value,
-          });
-        })
-        .then((signUp) => {
-          setDoc(doc(db, "users", signUp.user.uid), {
-            displayName: displayName.value,
-            uid: signUp.user.uid,
-            email: email.value,
-          });
+      try {
+        let registerRef = await createUserWithEmailAndPassword(
+          auth,
+          email.value,
+          password.value
+        );
+
+        await updateProfile(auth.currentUser, {
+          displayName: displayName.value,
         });
+        setDoc(doc(db, "users", registerRef.user.uid), {
+          displayName: displayName.value,
+          uid: registerRef.user.uid,
+          email: email.value,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+      router.push("/login");
     };
 
     return { email, password, handleSubmit, displayName };
