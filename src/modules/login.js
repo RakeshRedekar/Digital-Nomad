@@ -12,7 +12,8 @@ export const loginModule = {
       state.user = {
         email: id.email,
         displayName: id.displayName,
-        uID: id.accessToken,
+        userAccessToken: id.accessToken,
+        userID: id.uid,
       };
     },
   },
@@ -20,6 +21,7 @@ export const loginModule = {
     login({ commit }, data) {
       return signInWithEmailAndPassword(auth, data.email, data.password).then(
         (user) => {
+
           localStorage.setItem(
             "userToken",
             JSON.stringify(user.user.accessToken)

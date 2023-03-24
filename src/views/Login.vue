@@ -44,8 +44,8 @@ export default {
           password: password.value,
         })
         .then(() => {
-          
-          router.push("/home")})
+          router.push("/home");
+        })
         .catch((err) => console.log(err));
     };
 

@@ -39,17 +39,19 @@
 </template>
 
 <script>
+import { ref } from "vue";
 export default {
   name: "post",
   props: ["postData"],
   setup() {
+    let isLiked = ref(false);
     let gettingDate = (timeInstance) => {
       let postTime = timeInstance.toDate();
       let temp = postTime.toString();
       postTime = temp.slice(0, 21);
       return postTime;
     };
-    return { gettingDate };
+    return { gettingDate, isLiked };
   },
 };
 </script>

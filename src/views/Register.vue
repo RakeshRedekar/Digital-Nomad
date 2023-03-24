@@ -63,15 +63,15 @@ export default {
         await updateProfile(auth.currentUser, {
           displayName: displayName.value,
         });
-        setDoc(doc(db, "users", registerRef.user.uid), {
+        await setDoc(doc(db, "users", registerRef.user.uid), {
           displayName: displayName.value,
           uid: registerRef.user.uid,
           email: email.value,
         });
+        router.push("/login");
       } catch (err) {
         console.log(err);
       }
-      router.push("/login");
     };
 
     return { email, password, handleSubmit, displayName };
