@@ -3,7 +3,7 @@
     <Post
       v-for="post in store.state.homeModule.posts"
       :postData="post"
-      :key="post.id"
+      :key="post.docID"
     />
 
     <!-- Input Box -->

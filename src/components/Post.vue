@@ -22,11 +22,16 @@
         <p>24 comments</p>
       </div>
       <div class="footer_bottom">
-        <div class="footer_action">
-          <img
+        <div class="footer_action" @click="likePost">
+          <!-- <img
             src="../../public/icons/reshot-icon-heart.svg
           "
-          />
+          /> -->
+          <el-icon v-if="isLiked" size="25" color="blue"
+            ><StarFilled
+          /></el-icon>
+          <el-icon v-else size="25"><Star /></el-icon>
+
           <p>Like</p>
         </div>
         <div class="footer_action">
@@ -40,10 +45,23 @@
 
 <script>
 import { ref } from "vue";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { increment, deleteDoc } from "firebase/firestore";
+// import { collection } from "firebase/firestore";
+import { db } from "../main";
+import { onMounted } from "vue";
 export default {
   name: "post",
   props: ["postData"],
-  setup() {
+
+  setup(props) {
+    onMounted(async () => {
+      // let data = await getDocs(
+      //   collection(db, "posts", props.postData.docID, "likes")
+      // );
+
+    });
+
     let isLiked = ref(false);
     let gettingDate = (timeInstance) => {
       let postTime = timeInstance.toDate();
@@ -51,7 +69,54 @@ export default {
       postTime = temp.slice(0, 21);
       return postTime;
     };
-    return { gettingDate, isLiked };
+    let likePost = async () => {
+      const washingtonRef = doc(
+        db,
+        "users",
+        props.postData.userID,
+        "likes",
+        props.postData.docID
+      );
+      let numOfLikesRef = doc(db, "posts", props.postData.docID);
+      if (isLiked.value) {
+        await setDoc(
+          numOfLikesRef,
+          {
+            numOfLikes: increment(-1),
+          },
+          { merge: true }
+        );
+        await deleteDoc(washingtonRef);
+      } else {
+        await setDoc(
+          numOfLikesRef,
+          {
+            numOfLikes: increment(1),
+          },
+          { merge: true }
+        );
+        let likedPosts = {};
+        likedPosts.likedPost = props.postData.userID;
+        likedPosts.timestamp = Timestamp.now();
+        // let k = collection(db, "posts", props.postData.docID, "likes");
+
+        // let temp = props.postData.userID;
+        // let obj = {};
+        // obj[temp] = isLiked.value;
+        // const q = query(
+        //   k,
+        //   where("likes", "array-contains", props.postData.userID)
+        // );
+        await setDoc(washingtonRef, likedPosts, { merge: true });
+
+        // let querySnapshot = await getDocs(q);
+        // querySnapshot.forEach((element) => {
+        //   console.log("now:", element.data(), element.id);
+        // });
+      }
+      isLiked.value = !isLiked.value;
+    };
+    return { gettingDate, isLiked, likePost };
   },
 };
 </script>
@@ -103,9 +168,9 @@ export default {
   display: flex;
   justify-content: space-around;
 }
-.footer_bottom img {
+/* .footer_bottom img {
   height: 30px;
-}
+} */
 .footer_action {
   display: flex;
   align-items: center;
@@ -115,10 +180,8 @@ export default {
   justify-content: center;
   margin-top: 5px;
 }
-.footer_action:hover {
-  background-color: aliceblue;
-}
+
 .footer_action p {
-  margin: 0px;
+  margin: 0px 10px;
 }
 </style>

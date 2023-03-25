@@ -72,6 +72,7 @@ export default {
         ...store.state.loginModule.user,
         postDiscrip: postDiscrip.value,
         timestamp: Timestamp.now(),
+        numOfLikes: 0,
       };
       getDownloadURL(uploadTask.ref).then(async (downloadURL) => {
         data.postImg = downloadURL;
