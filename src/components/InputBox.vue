@@ -9,12 +9,16 @@
         >Post</el-button
       >
     </div>
-    <div v-if="postImg" class="postImgtemp">
+    <div v-if="postImg" class="preview_img_div">
       <img :src="postImg" class="postImgtemp" />
+      <el-icon size="20" @click="removeImage" class="remove_image"
+        ><CircleClose
+      /></el-icon>
     </div>
     <div class="add_attachments">
       <div class="input_options">
         <img src="../images/video_img.png" />
+
         <b>Add Video</b>
       </div>
       <div @click="$refs.filepickerRef.click()" class="input_options">
@@ -78,7 +82,9 @@ export default {
         data.postImg = downloadURL;
         await addDoc(collection(db, "posts"), {
           ...data,
-        }).then(store.commit("homeModule/addPost", data));
+        }).then((d) => {
+          store.commit("homeModule/addPost", { ...data, docID: d.id });
+        });
         // await updateDoc(doc(db, "usersPosts", currentUser.uid), {
         //   messages: arrayUnion({
         //     id: uuid(),
@@ -118,7 +124,10 @@ export default {
       // }
     };
 
-    const removeImage = () => (postImg.value = null);
+    const removeImage = () => {
+      postImg.value = null;
+      picToBeUploaded.value = null;
+    };
     return { postDiscrip, postImg, setImg, submitForm, removeImage };
   },
 };
@@ -135,7 +144,7 @@ export default {
 }
 .postImgtemp {
   width: 200px;
-  height: 200px;
+  max-height: 200px;
 }
 .input_post {
   display: flex;
@@ -172,8 +181,19 @@ export default {
   display: flex;
   align-items: center;
 }
+.preview_img_div {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
 .add_attachments b {
   margin-left: 5px;
   color: #65676b;
+}
+.remove_image {
+  position: relative;
+  left: -23px;
+  top: 3px;
+  z-index: 5;
 }
 </style>

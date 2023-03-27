@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div @click="isLiked">
     <Post
       v-for="post in store.state.homeModule.posts"
       :postData="post"
       :key="post.docID"
+      :postIsLiked="isLiked(post.docID)"
     />
 
     <!-- Input Box -->
@@ -21,8 +22,15 @@ export default {
     onMounted(() => {
       store.dispatch("homeModule/getPosts");
     });
+    let isLiked = (id) => {
+      if (store.state.loginModule.likedPosts) {
+        return store.state.loginModule.likedPosts.includes(id);
+      } else {
+        return false;
+      }
+    };
 
-    return { store };
+    return { store, isLiked };
   },
 };
 </script>

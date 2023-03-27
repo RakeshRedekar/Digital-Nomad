@@ -18,7 +18,10 @@
     </div>
     <div class="post_footer">
       <div class="footer_top">
-        <p>872 likes</p>
+        <div class="num_of_likes">
+          <p v-if="isLiked">You and&nbsp;</p>
+          {{ postData.numOfLikes }} others
+        </div>
         <p>24 comments</p>
       </div>
       <div class="footer_bottom">
@@ -52,14 +55,14 @@ import { db } from "../main";
 import { onMounted } from "vue";
 export default {
   name: "post",
-  props: ["postData"],
+  props: ["postData", "postIsLiked"],
 
   setup(props) {
     onMounted(async () => {
       // let data = await getDocs(
       //   collection(db, "posts", props.postData.docID, "likes")
       // );
-
+      isLiked.value = props.postIsLiked;
     });
 
     let isLiked = ref(false);
@@ -96,7 +99,7 @@ export default {
           { merge: true }
         );
         let likedPosts = {};
-        likedPosts.likedPost = props.postData.userID;
+        likedPosts.likedPost = props.postData.docID;
         likedPosts.timestamp = Timestamp.now();
         // let k = collection(db, "posts", props.postData.docID, "likes");
 
@@ -116,6 +119,7 @@ export default {
       }
       isLiked.value = !isLiked.value;
     };
+
     return { gettingDate, isLiked, likePost };
   },
 };
@@ -167,6 +171,14 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-around;
+}
+.num_of_likes {
+  display: flex;
+  height: 50px;
+  align-items: center;
+}
+.num_of_likes p {
+  margin: 0px;
 }
 /* .footer_bottom img {
   height: 30px;
