@@ -67,6 +67,7 @@ export default {
           displayName: displayName.value,
           uid: registerRef.user.uid,
           email: email.value,
+          numOfFollowers: 0,
         });
         router.push("/login");
       } catch (err) {

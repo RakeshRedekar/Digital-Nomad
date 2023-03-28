@@ -66,63 +66,69 @@ export default {
         postImg.value = oFREvent.target.result;
       };
     };
+
     let submitForm = async () => {
       // if (picToBeUploaded.value) {
-      let uploadTask = await uploadBytesResumable(
-        storageRef,
-        picToBeUploaded.value
-      );
-      const data = {
+      let data = {
         ...store.state.loginModule.user,
         postDiscrip: postDiscrip.value,
         timestamp: Timestamp.now(),
         numOfLikes: 0,
       };
-      getDownloadURL(uploadTask.ref).then(async (downloadURL) => {
-        data.postImg = downloadURL;
-        await addDoc(collection(db, "posts"), {
-          ...data,
-        }).then((d) => {
-          store.commit("homeModule/addPost", { ...data, docID: d.id });
+      if (picToBeUploaded.value) {
+        let uploadTask = await uploadBytesResumable(
+          storageRef,
+          picToBeUploaded.value
+        );
+        await getDownloadURL(uploadTask.ref).then(async (downloadURL) => {
+          data.postImg = downloadURL;
         });
-        // await updateDoc(doc(db, "usersPosts", currentUser.uid), {
-        //   messages: arrayUnion({
-        //     id: uuid(),
-        //     uid: currentUser.uid,
-        //     photoURL: currentUser.photoURL,
-        //     displayName: currentUser.displayName,
-        //     input,
-        //     img: downloadURL,
-        //     timestamp: Timestamp.now(),
-        //   }),
-        // });
+      }
+      await addDoc(collection(db, "posts"), {
+        ...data,
+      }).then((d) => {
+        console.log("data: ", data);
+        store.commit("homeModule/addPost", { ...data, docID: d.id });
       });
-      // };
-      // );
-      // }
-      // else {
-      //   await addDoc(collection(db, "posts"), {
-      //     uid: currentUser.uid,
-      //     photoURL: currentUser.photoURL,
-      //     displayName: currentUser.displayName,
-      //     input,
-
-      //     timestamp: serverTimestamp(),
-      //   });
-
-      //   await updateDoc(doc(db, "usersPosts", currentUser.uid), {
-      //     messages: arrayUnion({
-      //       id: uuid(),
-      //       uid: currentUser.uid,
-      //       photoURL: currentUser.photoURL,
-      //       displayName: currentUser.displayName,
-      //       input,
-
-      //       timestamp: Timestamp.now(),
-      //     }),
-      //   });
-      // }
+      postDiscrip.value = "";
     };
+    // await updateDoc(doc(db, "usersPosts", currentUser.uid), {
+    //   messages: arrayUnion({
+    //     id: uuid(),
+    //     uid: currentUser.uid,
+    //     photoURL: currentUser.photoURL,
+    //     displayName: currentUser.displayName,
+    //     input,
+    //     img: downloadURL,
+    //     timestamp: Timestamp.now(),
+    //   }),
+    // });
+
+    // };
+    // );
+    // }
+    // else {
+    //   await addDoc(collection(db, "posts"), {
+    //     uid: currentUser.uid,
+    //     photoURL: currentUser.photoURL,
+    //     displayName: currentUser.displayName,
+    //     input,
+
+    //     timestamp: serverTimestamp(),
+    //   });
+
+    //   await updateDoc(doc(db, "usersPosts", currentUser.uid), {
+    //     messages: arrayUnion({
+    //       id: uuid(),
+    //       uid: currentUser.uid,
+    //       photoURL: currentUser.photoURL,
+    //       displayName: currentUser.displayName,
+    //       input,
+
+    //       timestamp: Timestamp.now(),
+    //     }),
+    //   });
+    // }
 
     const removeImage = () => {
       postImg.value = null;

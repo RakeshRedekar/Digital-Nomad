@@ -1,7 +1,7 @@
 <template>
   <div class="formContainer">
     <div class="formWrapper">
-      <span class="logo">Lama Chat</span>
+      <span class="logo">Digital Nomad Buddy</span>
       <span class="title">Login</span>
       <form>
         <input v-model="email" type="email" placeholder="email" />

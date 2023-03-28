@@ -5,20 +5,20 @@
       :postData="post"
       :key="post.docID"
       :postIsLiked="isLiked(post.docID)"
+      :postIsFollowed="isFollowed(post.userID)"
     />
-
-    <!-- Input Box -->
   </div>
 </template>
 
 <script>
 import Post from "./Post.vue";
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
 export default {
   components: { Post },
   setup() {
     let store = useStore();
+    let follow = computed(() => store.state.loginModule.followingTo);
     onMounted(() => {
       store.dispatch("homeModule/getPosts");
     });
@@ -29,8 +29,15 @@ export default {
         return false;
       }
     };
+    let isFollowed = (id) => {
+      if (follow.value.indexOf(id)) {
+        return true;
+      } else {
+        return false;
+      }
+    };
 
-    return { store, isLiked };
+    return { store, isLiked, isFollowed };
   },
 };
 </script>
