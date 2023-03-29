@@ -1,0 +1,55 @@
+<template>
+  <div class="box_style">
+    <div class="overview_flex">
+      <h4>Current Location :</h4>
+      <p>India</p>
+    </div>
+    <div class="overview_flex">
+      <h4>Tags :</h4>
+      <el-button
+        v-for="(title, index) in ['Vegitarian', 'No-Smoking']"
+        type="primary"
+        plain
+        :key="index"
+        >{{ title }}</el-button
+      >
+    </div>
+    <div class="overview_flex">
+      <h4>Description :</h4>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, vero!
+        Eligendi minima asperiores expedita assumenda voluptatem ipsum debitis
+        similique sint nam. Nam eligendi culpa cupiditate consequuntur,
+        accusamus sint perspiciatis atque.
+      </p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "overview",
+  components: {},
+  setup() {},
+};
+</script>
+
+<style scoped>
+.overview_flex {
+  display: flex;
+  align-items: start;
+  margin: 20px 0px;
+}
+p,
+h4 {
+  margin: 0px;
+  padding: 0px;
+  line-height: 20px;
+}
+h4 {
+  width: 150px;
+}
+p {
+  width: 400px;
+}
+</style>

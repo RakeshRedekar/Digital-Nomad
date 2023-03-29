@@ -1,7 +1,7 @@
 <template>
-  <div class="post">
+  <div class="post main_containt box_style">
     <div class="post_heading">
-      <el-avatar :size="50" :fit="fit" src="src/images/Screenshot.png" />
+      <el-avatar :size="50" fit="fit" src="src/images/home_setup.png" />
       <div class="title_left">
         <p><b>Rakesh Redekar&nbsp;</b>is at &nbsp;<b>Malaysia </b></p>
         <p>{{ gettingDate(postData.timestamp) }}</p>
@@ -69,7 +69,7 @@ import { db } from "../main";
 import { onMounted, computed } from "vue";
 export default {
   name: "post",
-  props: ["postData", "postIsLiked", "postIsFollowed"],
+  props: ["postData", "postIsLiked"],
 
   setup(props) {
     let store = useStore();
@@ -181,12 +181,6 @@ export default {
 
 <style scoped>
 .post {
-  width: 600px;
-  margin-top: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px grey;
-  box-sizing: border-box;
-  padding: 20px;
 }
 .post_heading {
   display: flex;

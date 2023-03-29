@@ -1,7 +1,7 @@
 <template>
   <div class="inputBox">
     <div class="input_post">
-      <el-avatar :size="50" :fit="fit" src="src/images/Screenshot.png" />
+      <el-avatar :size="50" fit="fit" src="src/images/Screenshot.png" />
       <div class="post_field">
         <el-input v-model="postDiscrip">What's on your mind?</el-input>
       </div>
@@ -87,7 +87,6 @@ export default {
       await addDoc(collection(db, "posts"), {
         ...data,
       }).then((d) => {
-        console.log("data: ", data);
         store.commit("homeModule/addPost", { ...data, docID: d.id });
       });
       postDiscrip.value = "";

@@ -15,17 +15,9 @@
 import InputBox from "./InputBox.vue";
 import Posts from "./Posts.vue";
 export default {
+  name: "feed",
   components: { InputBox, Posts },
 };
 </script>
 
-<style scoped>
-.feed {
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 40px 0px;
-}
-</style>
+<style scoped></style>

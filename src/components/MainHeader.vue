@@ -2,11 +2,11 @@
   <div class="navigation">
     <ul class="navigationUL">
       <li
-        data-name="Home"
-        @click="handleActive('Home')"
-        :class="activeClass == 'Home' ? 'active' : ''"
+        data-name=""
+        @click="handleActive('')"
+        :class="activeClass == '' ? 'active' : ''"
       >
-        <el-icon :class="activeClass == 'Home' ? 'active' : ''" size="25"
+        <el-icon :class="activeClass == '' ? 'active' : ''" size="25"
           ><HomeFilled
         /></el-icon>
         <p><b>Home</b></p>
@@ -17,26 +17,26 @@
         :class="activeClass == 'Buddy' ? 'active' : ''"
       >
         <img
-          :class="activeClass == 'Home' ? 'active' : ''"
+          :class="activeClass == '' ? 'active' : ''"
           src="../../public/icons/add_friend.svg"
           class="buddy_svg"
         />
         <p><b>Find Buddy</b></p>
       </li>
       <li
-        @click="handleActive('Travel')"
-        data-name="Travel"
-        :class="activeClass == 'Travel' ? 'active' : ''"
+        @click="handleActive('travel')"
+        data-name="travel"
+        :class="activeClass == 'travel' ? 'active' : ''"
       >
         <img src="../../public/icons/travel-icon.svg" class="travel_svg" />
         <p><b> Plans</b></p>
       </li>
       <li
-        @click="handleActive('Profile')"
-        data-name="Profile"
-        :class="activeClass == 'Profile' ? 'active' : ''"
+        @click="handleActive('profile')"
+        data-name="profile"
+        :class="activeClass == 'profile' ? 'active' : ''"
       >
-        <el-avatar :size="25" :fit="fit" src="src/images/Screenshot.png" />
+        <el-avatar :size="25" fit="fit" src="src/images/Screenshot.png" />
         <p><b>Profile</b></p>
       </li>
     </ul>
@@ -45,12 +45,15 @@
 
 <script>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 export default {
   name: "main-header",
   setup() {
-    let activeClass = ref("Home");
+    let activeClass = ref("");
+    let router = useRouter();
     let handleActive = (data) => {
       activeClass.value = data;
+      router.push("/" + data);
     };
     return { activeClass, handleActive };
   },
