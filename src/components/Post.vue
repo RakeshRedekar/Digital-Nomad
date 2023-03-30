@@ -3,11 +3,15 @@
     <div class="post_heading">
       <el-avatar :size="50" fit="fit" src="src/images/home_setup.png" />
       <div class="title_left">
-        <p><b>Rakesh Redekar&nbsp;</b>is at &nbsp;<b>Malaysia </b></p>
+        <p>
+          <b>{{ postData.displayName }}&nbsp;</b>is at &nbsp;<b>Malaysia </b>
+        </p>
         <p>{{ gettingDate(postData.timestamp) }}</p>
       </div>
       <el-button
-        v-if="isFollowing"
+        v-if="
+          isFollowing && postData.userID !== store.state.loginModule.user.userID
+        "
         class="follow_btn"
         type="success"
         plain
@@ -15,7 +19,7 @@
         >Following..</el-button
       >
       <el-button
-        v-else
+        v-else-if="postData.userID !== store.state.loginModule.user.userID"
         class="follow_btn"
         type="success"
         plain
@@ -174,7 +178,7 @@ export default {
       store.commit("loginModule/handleFollowing", props.postData.userID);
     };
 
-    return { gettingDate, isLiked, likePost, handleFollow, isFollowing };
+    return { gettingDate, isLiked, likePost, handleFollow, isFollowing, store };
   },
 };
 </script>

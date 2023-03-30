@@ -143,6 +143,7 @@ export default {
   height: 100%;
   width: 600px;
   padding: 20px;
+  margin: 40px 0px;
   box-sizing: border-box;
   border-radius: 5px;
   box-shadow: 0 0 5px grey;

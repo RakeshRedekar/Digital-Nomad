@@ -20,7 +20,7 @@ const routes = [
     // meta: { requiresAuth: true },
     children: [
       {
-        path: "",
+        path: "home",
         name: "feed",
         component: Feed,
       },

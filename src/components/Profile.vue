@@ -14,24 +14,15 @@
         </div>
       </div>
       <ul>
-        <li
-          :class="activeClass == '' ? 'active' : ''"
-          @click="handleActive('')"
-        >
+        <router-link to="/profile" class="li_item">
           <h4>Overview</h4>
-        </li>
-        <li
-          :class="activeClass == 'posts' ? 'active' : ''"
-          @click="handleActive('posts')"
-        >
+        </router-link>
+        <router-link to="/profile/posts" class="li_item">
           <h4>Posts</h4>
-        </li>
-        <li
-          :class="activeClass == 'travel' ? 'active' : ''"
-          @click="handleActive('travel')"
-        >
+        </router-link>
+        <router-link to="/profile/travel" class="li_item">
           <h4>Travel Plan</h4>
-        </li>
+        </router-link>
       </ul>
     </div>
     <RouterView></RouterView>
@@ -81,19 +72,24 @@ ul {
   box-sizing: border-box;
   color: gray;
 }
-li,
+.li_item,
 ul,
 h4 {
   margin: 0;
   padding: 0;
 }
-li {
+.li_item {
   width: 120px;
   padding: 15px 0px;
   text-align: center;
 }
-.active {
-  border-bottom: 5px solid blue;
+
+a {
+  text-decoration: none;
+  color: black;
+}
+.router-link-exact-active {
+  border-bottom: 3px solid blue;
   color: blue;
   box-sizing: border-box;
 }
