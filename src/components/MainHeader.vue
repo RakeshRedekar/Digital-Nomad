@@ -70,6 +70,7 @@ a {
   text-decoration: none;
   color: black;
 }
+
 /* .router-link-exact-active {
   color: #f66;
 } */

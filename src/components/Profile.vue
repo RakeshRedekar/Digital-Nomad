@@ -17,7 +17,10 @@
         <router-link to="/profile" class="li_item">
           <h4>Overview</h4>
         </router-link>
-        <router-link to="/profile/posts" class="li_item">
+        <router-link
+          :to="{ path: '/profile', query: { id: 'adchuischi' } }"
+          class="li_item"
+        >
           <h4>Posts</h4>
         </router-link>
         <router-link to="/profile/travel" class="li_item">
@@ -25,23 +28,25 @@
         </router-link>
       </ul>
     </div>
-    <RouterView></RouterView>
+    <ProfileOverview />
+    <!-- <ProfileUpdate /> -->
+    <!-- <RouterView></RouterView> -->
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-
+import { useRoute } from "vue-router";
+import ProfileOverview from "./ProfileOverview.vue";
+// import ProfileUpdate from "./ProfileUpdate.vue";
 export default {
   name: "profile",
-  components: {},
+  components: { ProfileOverview },
   setup() {
     let activeClass = ref("");
-    let router = useRouter();
-    let handleActive = (data) => {
-      activeClass.value = data;
-      router.push("/profile/" + data);
+    let router = useRoute();
+    let handleActive = () => {
+      console.log(router.query);
     };
     return { activeClass, handleActive };
   },

@@ -25,21 +25,21 @@ const routes = [
         component: Feed,
       },
       {
-        path: "profile",
+        path: "/profile",
         name: "profile",
         component: () => import("@/components/Profile.vue"),
-        children: [
-          {
-            path: "",
-            name: "overview",
-            component: () => import("@/components/ProfileOverview.vue"),
-          },
-          {
-            path: "posts",
-            name: "posts",
-            component: () => import("@/components/ProfilePosts.vue"),
-          },
-        ],
+        // children: [
+        //   {
+        //     path: "",
+        //     name: "overview",
+        //     component: () => import("@/components/ProfileOverview.vue"),
+        //   },
+        //   {
+        //     path: "posts",
+        //     name: "posts",
+        //     component: () => import("@/components/ProfilePosts.vue"),
+        //   },
+        // ],
       },
     ],
   },
