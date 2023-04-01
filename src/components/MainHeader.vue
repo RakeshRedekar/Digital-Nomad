@@ -13,7 +13,16 @@
         <img src="../../public/icons/travel-icon.svg" class="travel_svg" />
         <p><b> Plans</b></p>
       </router-link>
-      <router-link to="/profile" class="li_item">
+      <router-link
+        :to="{
+          path: '/profile',
+          query: {
+            id: `${store.state.loginModule.user.userID}`,
+            page: 'overview',
+          },
+        }"
+        class="li_item"
+      >
         <el-avatar :size="25" fit="fit" src="src/images/Screenshot.png" />
         <p><b>Profile</b></p>
       </router-link>
@@ -22,10 +31,12 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
 export default {
   name: "main-header",
   setup() {
-    return {};
+    let store = useStore();
+    return { store };
   },
 };
 </script>
@@ -37,6 +48,7 @@ export default {
   top: 0px;
   font-family: "open sans", Arial, Helvetica, sans-serif;
   background-color: white;
+  z-index: 90;
 }
 .navigationUL {
   margin: 0px;

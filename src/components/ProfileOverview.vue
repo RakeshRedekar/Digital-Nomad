@@ -2,7 +2,7 @@
   <div class="box_style">
     <div class="overview_flex">
       <h4>Current Location :</h4>
-      <p>India</p>
+      <p>{{ profileData.location }}</p>
     </div>
     <div class="overview_flex">
       <h4>Tags :</h4>
@@ -17,10 +17,7 @@
     <div class="overview_flex">
       <h4>Description :</h4>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, vero!
-        Eligendi minima asperiores expedita assumenda voluptatem ipsum debitis
-        similique sint nam. Nam eligendi culpa cupiditate consequuntur,
-        accusamus sint perspiciatis atque.
+        {{ profileData.description }}
       </p>
     </div>
   </div>
@@ -29,7 +26,7 @@
 <script>
 export default {
   name: "overview",
-  components: {},
+  props: ["profileData"],
   setup() {},
 };
 </script>

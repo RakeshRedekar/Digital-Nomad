@@ -4,8 +4,8 @@
       <div class="profile_header_top">
         <el-avatar :size="100" fit="fit" src="src/images/Screenshot.png" />
         <div class="profile_name">
-          <h2>Rakesh Redekar</h2>
-          <p>447 followers</p>
+          <h2>{{ profileData.displayName }}</h2>
+          <p>{{ profileData.numOfFollowers }} followers</p>
         </div>
         <div class="profile_nav">
           <el-button class="follow_btn" type="success" plain
@@ -14,12 +14,17 @@
         </div>
       </div>
       <ul>
-        <router-link to="/profile" class="li_item">
+        <router-link
+          :to="{ path: '/profile', query: { id: profileID, page: 'overview' } }"
+          class="li_item"
+          :class="activeClass === 'overview' ? 'activeTab' : ''"
+        >
           <h4>Overview</h4>
         </router-link>
         <router-link
-          :to="{ path: '/profile', query: { id: 'adchuischi' } }"
+          :to="{ path: '/profile', query: { id: profileID, page: 'posts' } }"
           class="li_item"
+          :class="activeClass === 'posts' ? 'activeTab' : ''"
         >
           <h4>Posts</h4>
         </router-link>
@@ -28,27 +33,37 @@
         </router-link>
       </ul>
     </div>
-    <ProfileOverview />
+    <ProfilePosts v-if="activeClass === 'posts'" :profileID="profileID" />
+    <ProfileOverview :profileData="profileData" v-else />
     <!-- <ProfileUpdate /> -->
     <!-- <RouterView></RouterView> -->
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 import ProfileOverview from "./ProfileOverview.vue";
+import ProfilePosts from "./ProfilePosts.vue";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../main";
 // import ProfileUpdate from "./ProfileUpdate.vue";
 export default {
   name: "profile",
-  components: { ProfileOverview },
+  components: { ProfileOverview, ProfilePosts },
   setup() {
-    let activeClass = ref("");
     let router = useRoute();
-    let handleActive = () => {
-      console.log(router.query);
-    };
-    return { activeClass, handleActive };
+    onMounted(async () => {
+      const docRef = doc(db, "users", `${router.query.id}`);
+      const docSnap = await getDoc(docRef);
+      profileData.value = docSnap.data();
+      profileID.value = router.query.id;
+    });
+    let profileID = ref("");
+    let profileData = ref({});
+    let activeClass = computed(() => router.query.page);
+    return { activeClass, profileData, profileID };
   },
 };
 </script>
@@ -93,7 +108,7 @@ a {
   text-decoration: none;
   color: black;
 }
-.router-link-exact-active {
+.activeTab {
   border-bottom: 3px solid blue;
   color: blue;
   box-sizing: border-box;

@@ -90,6 +90,7 @@ export default {
         store.commit("homeModule/addPost", { ...data, docID: d.id });
       });
       postDiscrip.value = "";
+      postImg = null;
     };
     // await updateDoc(doc(db, "usersPosts", currentUser.uid), {
     //   messages: arrayUnion({

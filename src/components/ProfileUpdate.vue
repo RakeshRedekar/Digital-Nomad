@@ -17,7 +17,7 @@
           @change="setImg"
         />
       </div>
-      <div>Hello</div>
+      <div><h4>Current Location</h4></div>
     </div>
   </div>
 </template>

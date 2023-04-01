@@ -16,13 +16,14 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
   components: { Post },
+  props: ["profileID"],
   name: "posts",
-  setup() {
+  setup(props) {
     let store = useStore();
     let follow = computed(() => store.state.loginModule.followingTo);
     let profilePosts = computed(() =>
       store.state.homeModule.posts.filter(
-        (ele) => ele.userID === store.state.loginModule.user.userID
+        (ele) => ele.userID === props.profileID
       )
     );
 
