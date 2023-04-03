@@ -2,13 +2,16 @@
   <div class="profile main_containt">
     <div class="profile_header box_style">
       <div class="profile_header_top">
-        <el-avatar :size="100" fit="fit" src="src/images/Screenshot.png" />
+        <el-avatar :size="100" fit="fit" :src="profileData.profilePic" />
         <div class="profile_name">
           <h2>{{ profileData.displayName }}</h2>
           <p>{{ profileData.numOfFollowers }} followers</p>
         </div>
         <div class="profile_nav">
-          <el-button class="follow_btn" type="success" plain
+          <el-button @click="handleUpdate" v-if="profileID===store.state.loginModule.user.userID" class="follow_btn" type="success" plain
+            ><el-icon><Plus /></el-icon>&nbsp; Edit</el-button
+          >
+          <el-button v-else class="follow_btn" type="success" plain
             ><el-icon><Plus /></el-icon>&nbsp; Follow</el-button
           >
         </div>
@@ -35,7 +38,7 @@
     </div>
     <ProfilePosts v-if="activeClass === 'posts'" :profileID="profileID" />
     <ProfileOverview :profileData="profileData" v-else />
-    <!-- <ProfileUpdate /> -->
+    <ProfileUpdate :profileData="profileData" v-if="updatePage" :profileID="profileID" @closeUpdate = "updatePage=false"/>
     <!-- <RouterView></RouterView> -->
   </div>
 </template>
@@ -48,14 +51,17 @@ import ProfileOverview from "./ProfileOverview.vue";
 import ProfilePosts from "./ProfilePosts.vue";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../main";
-// import ProfileUpdate from "./ProfileUpdate.vue";
+import ProfileUpdate from "./ProfileUpdate.vue";
+import { useStore } from "vuex";
 export default {
   name: "profile",
-  components: { ProfileOverview, ProfilePosts },
+  components: { ProfileOverview, ProfilePosts, ProfileUpdate },
   setup() {
     let router = useRoute();
+    let store = useStore()
+    const docRef = doc(db, "users", `${router.query.id}`);
     onMounted(async () => {
-      const docRef = doc(db, "users", `${router.query.id}`);
+      
       const docSnap = await getDoc(docRef);
       profileData.value = docSnap.data();
       profileID.value = router.query.id;
@@ -63,7 +69,13 @@ export default {
     let profileID = ref("");
     let profileData = ref({});
     let activeClass = computed(() => router.query.page);
-    return { activeClass, profileData, profileID };
+    let updatePage = ref(false)
+    let handleUpdate = () =>{
+      updatePage.value = true
+    getDoc(docRef).then((docSnap)=>profileData.value = docSnap.data());
+      
+    }
+    return { activeClass, profileData, profileID, store, updatePage, handleUpdate };
   },
 };
 </script>

@@ -2,12 +2,12 @@
   <div class="box_style">
     <div class="overview_flex">
       <h4>Current Location :</h4>
-      <p>{{ profileData.location }}</p>
+      <p>{{ profileData.state}},{{ profileData.country }}</p>
     </div>
     <div class="overview_flex">
       <h4>Tags :</h4>
       <el-button
-        v-for="(title, index) in ['Vegitarian', 'No-Smoking']"
+        v-for="(title, index) in profileData.tags"
         type="primary"
         plain
         :key="index"
@@ -27,7 +27,9 @@
 export default {
   name: "overview",
   props: ["profileData"],
-  setup() {},
+  setup(props) {
+    console.log('overview: ', props.profileData);
+  },
 };
 </script>
 

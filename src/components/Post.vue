@@ -81,6 +81,7 @@ export default {
       // let data = await getDocs(
       //   collection(db, "posts", props.postData.docID, "likes")
       // );
+      console.log("post: ", props.postIsLiked);
       isLiked.value = props.postIsLiked;
       // isFollowing.value = props.postIsFollowed;
     });
