@@ -1,7 +1,7 @@
 <template>
   <div class="inputBox">
     <div class="input_post">
-      <el-avatar :size="50" fit="fit" src="src/images/Screenshot.png" />
+      <el-avatar :size="50" fit="fit" :src="profilePic" />
       <div class="post_field">
         <el-input v-model="postDiscrip">What's on your mind?</el-input>
       </div>
@@ -58,6 +58,7 @@ export default {
     let postDiscrip = ref("");
     let postImg = ref(null);
     let picToBeUploaded = ref(null);
+    let profilePic = ref(store.state.loginModule.user.profilePic)
     let setImg = (e) => {
       picToBeUploaded.value = e.target.files[0];
       var oFReader = new FileReader();
@@ -134,7 +135,7 @@ export default {
       postImg.value = null;
       picToBeUploaded.value = null;
     };
-    return { postDiscrip, postImg, setImg, submitForm, removeImage };
+    return { postDiscrip, postImg, setImg, submitForm, removeImage, profilePic };
   },
 };
 </script>

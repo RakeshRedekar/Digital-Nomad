@@ -23,8 +23,7 @@
         }"
         class="li_item"
       >
-        <el-avatar :size="25" fit="fit" src="src/images/Screenshot.png" />
-        <p><b>Profile</b></p>
+        <el-avatar :size="50" fit="fit" :src="store.state.loginModule.user.profilePic" />
       </router-link>
     </ul>
   </div>

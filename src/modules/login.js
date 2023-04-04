@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
-import { auth, db } from "../main";
+import { auth, db, storage } from "../main";
+import { ref as storageRef, getDownloadURL } from "@firebase/storage";
 export const loginModule = {
   namespaced: true,
   state() {
@@ -11,12 +12,13 @@ export const loginModule = {
     };
   },
   mutations: {
-    setUser: (state, { id, likes, following }) => {
+    setUser: (state, { id, likes, following, profilePic }) => {
       state.user = {
         email: id.email,
         displayName: id.displayName,
         userAccessToken: id.accessToken,
         userID: id.uid,
+        profilePic : profilePic
       };
       if (likes) {
         state.likedPosts = likes;
@@ -47,6 +49,7 @@ export const loginModule = {
     login({ commit }, data) {
       return signInWithEmailAndPassword(auth, data.email, data.password).then(
         async (user) => {
+          
           localStorage.setItem(
             "userToken",
             JSON.stringify(user.user.accessToken)
@@ -67,10 +70,13 @@ export const loginModule = {
           followingRef.forEach((doc) => {
             following.push(doc.id);
           });
+          console.log("User: ", user.user);
+          let profilePic = await getDownloadURL(storageRef(storage, `profilePics/${user.user.uid}`))
           commit("setUser", {
             id: user.user,
             likes: likedPosts,
             following: following,
+            profilePic:profilePic,
           });
         }
       );

@@ -8,12 +8,14 @@
           <p>{{ profileData.numOfFollowers }} followers</p>
         </div>
         <div class="profile_nav">
-          <el-button @click="handleUpdate" v-if="profileID===store.state.loginModule.user.userID" class="follow_btn" type="success" plain
+          <!-- <el-button  class="follow_btn" type="success" plain
             ><el-icon><Plus /></el-icon>&nbsp; Edit</el-button
-          >
-          <el-button v-else class="follow_btn" type="success" plain
+          > -->
+          <el-button @click="handleUpdate" v-if="profileID===store.state.loginModule.user.userID" type="info" plain>
+            <el-icon><EditPen /></el-icon>&nbsp;Edit Profile</el-button>
+          <!-- <el-button v-else class="follow_btn" type="success" plain
             ><el-icon><Plus /></el-icon>&nbsp; Follow</el-button
-          >
+          > -->
         </div>
       </div>
       <ul>
@@ -38,7 +40,7 @@
     </div>
     <ProfilePosts v-if="activeClass === 'posts'" :profileID="profileID" />
     <ProfileOverview :profileData="profileData" v-else />
-    <ProfileUpdate :profileData="profileData" v-if="updatePage" :profileID="profileID" @closeUpdate = "updatePage=false"/>
+    <ProfileUpdate :profileData="profileData" v-if="updatePage" :profileID="profileID" @closeUpdate = "closeUpdate"/>
     <!-- <RouterView></RouterView> -->
   </div>
 </template>
@@ -72,10 +74,12 @@ export default {
     let updatePage = ref(false)
     let handleUpdate = () =>{
       updatePage.value = true
-    getDoc(docRef).then((docSnap)=>profileData.value = docSnap.data());
-      
     }
-    return { activeClass, profileData, profileID, store, updatePage, handleUpdate };
+    let closeUpdate = () =>{
+      updatePage.value=false
+      getDoc(docRef).then((docSnap)=>profileData.value = docSnap.data());
+    }
+    return { activeClass, profileData, profileID, store, updatePage, handleUpdate, closeUpdate };
   },
 };
 </script>
@@ -94,7 +98,7 @@ export default {
   align-items: center;
 }
 .profile_name {
-  width: 320px;
+  width: 300px;
 }
 
 ul {

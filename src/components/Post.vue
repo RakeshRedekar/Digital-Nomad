@@ -1,13 +1,21 @@
 <template>
   <div class="post main_containt box_style">
     <div class="post_heading">
-      <el-avatar :size="50" fit="fit" src="src/images/home_setup.png" />
+      <el-avatar :size="50" fit="fit" :src="profilePic" />
+      <router-link :to="{
+          path: '/profile',
+          query: {
+            id: `${postData.userID}`,
+            page: 'overview',
+          },
+        }">
       <div class="title_left">
         <p>
           <b>{{ postData.displayName }}&nbsp;</b>is at &nbsp;<b>Malaysia </b>
         </p>
         <p>{{ gettingDate(postData.timestamp) }}</p>
       </div>
+    </router-link>
       <el-button
         v-if="
           isFollowing && postData.userID !== store.state.loginModule.user.userID
@@ -56,7 +64,7 @@
         </div>
         <div class="footer_action">
           <el-icon size="25"><ChatLineSquare /></el-icon>
-          <p>Comment</p>
+          <p >Comment</p>
         </div>
       </div>
     </div>
@@ -67,9 +75,10 @@
 import { ref } from "vue";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { increment, deleteDoc } from "firebase/firestore";
+import { ref as storageRef, getDownloadURL } from "@firebase/storage";
 import { useStore } from "vuex";
 // import { collection } from "firebase/firestore";
-import { db } from "../main";
+import { db, storage } from "../main";
 import { onMounted, computed } from "vue";
 export default {
   name: "post",
@@ -81,12 +90,14 @@ export default {
       // let data = await getDocs(
       //   collection(db, "posts", props.postData.docID, "likes")
       // );
-      console.log("post: ", props.postIsLiked);
       isLiked.value = props.postIsLiked;
+      await getDownloadURL(storageRef(storage, `profilePics/${props.postData.userID}`)).then(async (downloadURL) =>
+      profilePic.value=downloadURL).catch(()=>{console.log("Profile pic missing for some posts");});
       // isFollowing.value = props.postIsFollowed;
     });
 
     let isLiked = ref(false);
+    let profilePic = ref("../assets/logo.png")
     let isFollowing = computed(() =>
       store.getters["loginModule/isFollowing"](props.postData.userID)
     );
@@ -173,19 +184,24 @@ export default {
           {
             numOfFollowers: increment(-1),
           },
-          { merge: true }
+          { merge: true } 
         );
       }
       store.commit("loginModule/handleFollowing", props.postData.userID);
     };
 
-    return { gettingDate, isLiked, likePost, handleFollow, isFollowing, store };
+
+    return { gettingDate, isLiked, likePost, handleFollow, isFollowing, store , profilePic};
   },
 };
 </script>
 
 <style scoped>
-.post {
+a{
+  text-decoration: none;
+  color: black;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 .post_heading {
   display: flex;
