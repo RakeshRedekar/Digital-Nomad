@@ -11,7 +11,7 @@
         }">
       <div class="title_left">
         <p>
-          <b>{{ postData.displayName }}&nbsp;</b>is at &nbsp;<b>Malaysia </b>
+          <b>{{ postData.displayName }}&nbsp;</b>is at &nbsp;<b>{{postData.state? `${postData.state},${postData.country}`:postData.country }}</b>
         </p>
         <p>{{ gettingDate(postData.timestamp) }}</p>
       </div>
