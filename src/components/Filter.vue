@@ -9,7 +9,7 @@
           <el-option class="location_input" v-for="item in countries" :key="item.name" :label="item.name"
             :value="item.name" />
         </el-select>
-        <el-select v-model="selectedState" class="m-2" placeholder="Select State">
+        <el-select v-model="selectedState" class="m-2" placeholder="Select State" @change="stateChanged">
           <el-option v-for="item in states" :key="item.name" :label="item.name" :value="item.name" />
         </el-select>
       </div>
@@ -22,7 +22,7 @@ import { ref , onMounted} from 'vue';
 import axios from 'axios';
 export default {
     name :'filter',
-    setup() {
+    setup(prop,{ emit }) {
     onMounted(() => {
       axios.get(
         "https://countriesnow.space/api/v0.1/countries/currency"
@@ -36,16 +36,21 @@ export default {
     let states = ref([])
 
     let selectState = async () => {
+        emit('filterUsers', selectedCountry.value, null )
       selectedState.value = '';
       let body = { 'country': selectedCountry.value };
       let stateData = await axios.post(
         `https://countriesnow.space/api/v0.1/countries/states`,
         body
       );
-      console.log("stateData: ", stateData.data.data.states);
       states.value = stateData.data.data.states;
+      
     };
-    return {selectState, selectedCountry, selectedState, countries, states }
+
+    let stateChanged = () =>{
+        emit('filterUsers', selectedCountry.value, selectedState.value )
+    }
+    return {selectState, selectedCountry, selectedState, countries, states, stateChanged }
     },
 }
 </script>

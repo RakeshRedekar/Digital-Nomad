@@ -23,7 +23,7 @@
         class="follow_btn"
         type="success"
         plain
-        @click="handleFollow"
+        @click="handleUnfollow"
         >Following..</el-button
       >
       <el-button
@@ -155,43 +155,16 @@ export default {
       }
       isLiked.value = !isLiked.value;
     };
-    let numOfFollowersRef = doc(db, "users", props.postData.userID);
     let handleFollow = async () => {
-      const followRef = doc(
-        db,
-        "users",
-        store.state.loginModule.user.userID,
-        "following",
-        props.postData.userID
-      );
-      if (!isFollowing.value) {
-        let followingTo = {
-          uid: props.postData.userID,
-          timestamp: Timestamp.now(),
-        };
-        await setDoc(followRef, followingTo, { merge: true });
-        await setDoc(
-          numOfFollowersRef,
-          {
-            numOfFollowers: increment(1),
-          },
-          { merge: true }
-        );
-      } else {
-        await deleteDoc(followRef);
-        await setDoc(
-          numOfFollowersRef,
-          {
-            numOfFollowers: increment(-1),
-          },
-          { merge: true } 
-        );
-      }
       store.commit("loginModule/handleFollowing", props.postData.userID);
     };
+    
+    let handleUnfollow = () =>{
+      store.commit("loginModule/handleUnfollow", props.postData.userID);
+    }
 
 
-    return { gettingDate, isLiked, likePost, handleFollow, isFollowing, store , profilePic};
+    return { gettingDate, isLiked, likePost, handleFollow,handleUnfollow, isFollowing, store , profilePic};
   },
 };
 </script>

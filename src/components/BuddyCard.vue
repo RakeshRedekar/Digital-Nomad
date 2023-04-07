@@ -34,7 +34,7 @@
         class="follow_btn"
         type="success"
         plain
-        @click="handleFollow"
+        @click="handleUnfollow"
         >Following..</el-button
       >
       <el-button
@@ -58,9 +58,16 @@ export default {
   setup(props) {
     let store = useStore();
     let isFollowing = computed(() =>
-      store.getters["loginModule/isFollowing"](props.buddyDetails.uID)
+      store.getters["loginModule/isFollowing"](props.buddyDetails.uid)
     );
-    return { store, isFollowing };
+    let handleFollow = async () => {
+      store.commit("loginModule/handleFollowing", props.buddyDetails.uid);
+    };
+    
+    let handleUnfollow = () =>{
+      store.commit("loginModule/handleUnfollow", props.buddyDetails.uid);
+    }
+    return { store, isFollowing, handleFollow, handleUnfollow };
   },
 };
 </script>

@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs , Timestamp, doc, setDoc,} from "firebase/firestore";
 import { auth, db, storage } from "../main";
+import { increment, deleteDoc } from "firebase/firestore";
 import { ref as storageRef, getDownloadURL } from "@firebase/storage";
 export const loginModule = {
   namespaced: true,
@@ -27,7 +28,30 @@ export const loginModule = {
         state.followingTo = following;
       }
     },
-    handleFollowing: (state, data) => {
+    handleFollowing: async (state, data) => {
+      
+      let numOfFollowersRef = doc(db, "users", data);
+      const followRef = doc(
+        db,
+        "users",
+        state.user.userID,
+        "following",
+        data
+      );
+      
+        let followingTo = {
+          uid: data,
+          timestamp: Timestamp.now(),
+        };
+        await setDoc(followRef, followingTo, { merge: true });
+        await setDoc(
+          numOfFollowersRef,
+          {
+            numOfFollowers: increment(1),
+          },
+          { merge: true }
+        );
+      
       if (state.followingTo.indexOf(data) >= 0) {
         let followIndex = state.followingTo.indexOf(data);
         state.followingTo.splice(followIndex, 1);
@@ -35,6 +59,31 @@ export const loginModule = {
         state.followingTo.push(data);
       }
     },
+    handleUnfollow : async (state, data) =>{
+      const followRef = doc(
+        db,
+        "users",
+        state.user.userID,
+        "following",
+        data
+      );
+      let numOfFollowersRef = doc(db, "users", data);
+
+      await deleteDoc(followRef);
+      await setDoc(
+        numOfFollowersRef,
+        {
+          numOfFollowers: increment(-1),
+        },
+        { merge: true } 
+      );
+      if (state.followingTo.indexOf(data) >= 0) {
+        let followIndex = state.followingTo.indexOf(data);
+        state.followingTo.splice(followIndex, 1);
+      } else {
+        state.followingTo.push(data);
+      }
+    }
   },
   getters: {
     isFollowing: (state) => (id) => {
