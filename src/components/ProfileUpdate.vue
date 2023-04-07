@@ -73,7 +73,7 @@ export default {
     let countries = ref([]);
     let states = ref([])
     let picToBeUploaded = ref(null);
-    let defaultTags = ['Vegitarian', 'No-Drinking', 'Non-smoker', 'Full time Travelling', 'Digital Nomad', 'Beach', 'Mountain', 'Food', 'Pets', 'Yoga', 'Gym', 'Spiritual'];
+    let defaultTags = ['Vegetarian', 'No-Drinking', 'Non-smoker', 'Full time Travelling', 'Digital Nomad', 'Beach', 'Mountain', 'Food', 'Pets', 'Yoga', 'Gym', 'Spiritual'];
     let selectedTags = ref(props.profileData.tags?props.profileData.tags:[]);
     let description = ref(props.profileData.description)
     let updateref = doc(db, "users", props.profileID);

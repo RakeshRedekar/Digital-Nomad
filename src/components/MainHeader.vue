@@ -5,7 +5,7 @@
         <el-icon size="25"><HomeFilled /></el-icon>
         <p><b>Home</b></p>
       </router-link>
-      <router-link to="/buddy" class="li_item">
+      <router-link to="/findbuddy" class="li_item">
         <img src="../../public/icons/add_friend.svg" class="buddy_svg" />
         <p><b>Find Buddy</b></p>
       </router-link>

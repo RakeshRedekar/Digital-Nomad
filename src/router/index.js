@@ -41,8 +41,14 @@ const routes = [
         //   },
         // ],
       },
+      {
+        path: "/findbuddy",
+        name: "find_buddy",
+        component: () => import("@/views/FindBuddy.vue"),
+      },
     ],
   },
+  
 ];
 
 const router = createRouter({
