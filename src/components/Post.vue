@@ -158,7 +158,7 @@ export default {
     let handleFollow = async () => {
       store.commit("loginModule/handleFollowing", props.postData.userID);
     };
-    
+
     let handleUnfollow = () =>{
       store.commit("loginModule/handleUnfollow", props.postData.userID);
     }
@@ -170,12 +170,12 @@ export default {
 </script>
 
 <style scoped>
-a{
+/* a{
   text-decoration: none;
   color: black;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
+} */
 .post_heading {
   display: flex;
 }

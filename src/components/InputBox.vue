@@ -1,5 +1,5 @@
 <template>
-  <div class="inputBox">
+  <div class="inputBox box_style">
     <div class="input_post">
       <el-avatar :size="50" fit="fit" :src="profilePic" />
       <div class="post_field">
@@ -161,7 +161,7 @@ export default {
           store.commit("homeModule/addPost", { ...data, docID: d.id });
         });
         postDiscrip.value = "";
-        postImg = null;
+        postImg.value = null;
         selectedState.value = null;
         selectedCountry.value = null
       } else if(postDiscrip.value){
@@ -251,13 +251,9 @@ export default {
 
 <style scoped>
 .inputBox {
-  height: 100%;
+  /* height: 100%; */
   width: 600px;
-  padding: 20px;
-  margin: 40px 0px;
-  box-sizing: border-box;
-  border-radius: 5px;
-  box-shadow: 0 0 5px grey;
+  margin: 20px 0px;
 }
 
 .postImgtemp {

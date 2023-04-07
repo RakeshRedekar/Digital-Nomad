@@ -22,9 +22,11 @@ export default {
 .wall {
   width: 100vw;
   display: flex;
-  justify-content: center;
+  min-height: 100vh;
+  /* justify-content: center; */
   align-items: center;
   flex-direction: column;
   padding: 0px 0px;
+  background-color: #F0F2F5;
 }
 </style>

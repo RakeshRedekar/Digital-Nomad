@@ -85,9 +85,7 @@ export default {
 </script>
 
 <style scoped>
-.profile {
-  margin: 20px 0px;
-}
+
 .profile_header {
   padding-bottom: 0px;
 }

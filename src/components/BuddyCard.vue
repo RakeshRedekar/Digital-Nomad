@@ -3,7 +3,16 @@
     <el-avatar :size="100" fit="fit" :src="buddyDetails.profilePic" />
     <div class="buddy_details">
       <div>
+        <router-link :to="{
+          path: '/profile',
+          query: {
+            id: `${buddyDetails.uid}`,
+            page: 'overview',
+          },
+        }">
         <h4>{{ buddyDetails.displayName }}</h4>
+    </router-link>
+
         <p>{{ buddyDetails.numOfFollowers }} followers</p>
         <p>
             <el-icon size="20"><Location /></el-icon>

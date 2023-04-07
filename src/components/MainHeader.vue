@@ -74,8 +74,9 @@ export default {
   color: blue;
 } */
 .router-link-active {
-  color: blue;
-  border-bottom: 3px solid blue;
+  /* color: blue; */
+  border-bottom: 3px solid #0000ff;
+  
 }
 a {
   text-decoration: none;

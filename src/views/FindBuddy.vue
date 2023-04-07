@@ -1,5 +1,5 @@
 <template>
-    <div class="wall">
+    <div class="find_buddy">
         <Filter @filterUsers="filterUsers" />
         <BuddyCard v-for="(item, index) in filteredUsers" :buddyDetails="item" :key="index" />
     </div>
@@ -48,12 +48,13 @@ export default {
 </script>
 
 <style scoped>
-.wall {
-    width: 100vw;
+.find_buddy {
+    width: 600px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    /* align-items: center;
+    flex-direction: column; */
     padding: 0px 0px;
 }
 </style>

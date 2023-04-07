@@ -60,12 +60,20 @@ export default {
   name: "profileUpdate",
   props: ["profileData", "profileID"],
   setup(props, { emit }) {
-    onMounted(() => {
-      axios.get(
+    onMounted(async () => {
+     await axios.get(
         "https://countriesnow.space/api/v0.1/countries/currency"
       ).then((getData) => {
         countries.value = getData.data.data;
       });
+      if(selectedCountry.value){
+        let body = { 'country': selectedCountry.value };
+      let stateData = await axios.post(
+        `https://countriesnow.space/api/v0.1/countries/states`,
+        body
+      );
+      states.value = stateData.data.data.states;
+      }
     });
     let postImg = ref(props.profileData.profilePic ? props.profileData.profilePic : null);
     let selectedCountry = ref(props.profileData.country);
@@ -99,6 +107,7 @@ export default {
       );
       states.value = stateData.data.data.states;
     };
+
     let selectedTagsFunc = (val) => {
       let i = selectedTags.value.indexOf(val)
       if (i >= 0) {
