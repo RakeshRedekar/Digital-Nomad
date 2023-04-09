@@ -9,7 +9,7 @@
         <img src="../../public/icons/add_friend.svg" class="buddy_svg" />
         <p><b>Find Buddy</b></p>
       </router-link>
-      <router-link to="/travel" class="li_item">
+      <router-link to="/plans" class="li_item">
         <img src="../../public/icons/travel-icon.svg" class="travel_svg" />
         <p><b> Plans</b></p>
       </router-link>

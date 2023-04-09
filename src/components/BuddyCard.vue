@@ -4,7 +4,7 @@
     <div class="buddy_details">
       <div>
         <router-link :to="{
-          path: '/profile',
+          path: '/users',
           query: {
             id: `${buddyDetails.uid}`,
             page: 'overview',

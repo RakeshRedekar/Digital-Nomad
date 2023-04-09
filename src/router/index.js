@@ -46,7 +46,18 @@ const routes = [
         name: "find_buddy",
         component: () => import("@/views/FindBuddy.vue"),
       },
+      {
+        path: "/plans",
+        name: "plans",
+        component: () => import("@/views/Plans.vue"),
+      },
+      {
+        path: "/users",
+        name: "user",
+        component: () => import("@/components/Profile.vue"),
+      },
     ],
+    
   },
   
 ];

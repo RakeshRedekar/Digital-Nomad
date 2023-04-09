@@ -3,7 +3,7 @@
     <div class="post_heading">
       <el-avatar :size="50" fit="fit" :src="profilePic" />
       <router-link :to="{
-          path: '/profile',
+          path: '/users',
           query: {
             id: `${postData.userID}`,
             page: 'overview',

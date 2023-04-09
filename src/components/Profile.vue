@@ -63,7 +63,6 @@ export default {
     let store = useStore()
     const docRef = doc(db, "users", `${router.query.id}`);
     onMounted(async () => {
-      
       const docSnap = await getDoc(docRef);
       profileData.value = docSnap.data();
       profileID.value = router.query.id;

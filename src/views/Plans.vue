@@ -1,20 +1,23 @@
 <template>
     <div class="find_buddy">
-        <Filter @filterUsers="filterUsers" />
-        <BuddyCard v-for="(item, index) in filteredUsers" :buddyDetails="item" :key="index" />
+        <TravelFilter @filterTravel="filterTravel" @openPlan="isAddPlan=true"/>
+        <TravelCard v-for="(item, index) in filteredUsers" :buddyDetails="item" :key="index" />
+        <AddPlan v-if="isAddPlan" @closePlan="()=>isAddPlan=false"/>
     </div>
 </template>
 
 <script>
-import BuddyCard from "../components/BuddyCard.vue";
-import Filter from "../components/Filter.vue";
+import TravelCard from "../components/TravelCard.vue";
+import TravelFilter from "../components/TravelFilter.vue";
+import AddPlan from "../components/AddPlan.vue";
 import { ref } from "vue";
 import { db } from "../main";
 import { onMounted } from "vue";
 import { getDocs, collection } from "@firebase/firestore";
 export default {
-    components: { BuddyCard, Filter },
-    name: "find-buddy",
+    components: { TravelCard, TravelFilter, AddPlan },
+    name: "plans",
+    
     setup() {
         onMounted(async () => {
             let data = await getDocs(collection(db, "users"));
@@ -28,9 +31,8 @@ export default {
 
         let users = ref([]);
         let filteredUsers = ref([]);
-
-        let filterUsers = (userCountry, userState) => {
-
+        let isAddPlan = ref(true)
+        let filterTravel = (userCountry, userState) => {
             if (userState) {
                 filteredUsers.value = users.value.filter((user) => {
                     return user.country == userCountry && user.state == userState;
@@ -42,7 +44,7 @@ export default {
             }
         };
 
-        return { users, filterUsers, filteredUsers };
+        return { users, filterTravel, filteredUsers ,isAddPlan};
     },
 };
 </script>
