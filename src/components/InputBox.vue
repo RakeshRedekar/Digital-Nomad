@@ -137,6 +137,7 @@ export default {
     };
 
     let submitForm = async () => {
+      console.log("store.state.loginModule.user: ", store.state.loginModule.user);
       if (selectedCountry.value && postDiscrip.value) {
         let data = {
           ...store.state.loginModule.user,

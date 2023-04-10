@@ -96,7 +96,7 @@
           type="textarea"
           show-word-limit
           maxlength="150"
-          placeholder="select end date"
+          placeholder="Write desciption about your trip"
         />
       </div>
       <el-button type="success" class="submit_btn" round @click="submitDetails"
@@ -108,7 +108,8 @@
 <script>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import { doc, setDoc } from "@firebase/firestore";
+import {   Timestamp, addDoc, collection } from "@firebase/firestore";
+import { useStore } from "vuex";
 import { db } from "../main";
 export default {
   name: "add-plan",
@@ -131,8 +132,10 @@ export default {
     let countries = ref([]);
     let fromAllstates = ref([]);
     let toAllstates = ref([]);
-    let description = ref(null);
-    let updateref = doc(db, "plans", "sdclkmskcm");
+  
+
+    let store = useStore();
+
     let selectFromState = async () => {
       fromState.value = "";
       let body = { country: fromCountry.value };
@@ -155,13 +158,27 @@ export default {
 
     let submitDetails = async () => {
       let data = {
-        description: description.value,
+        profilePic: store.state.loginModule.user.profilePic,
+        userID : store.state.loginModule.user.userID,
+        displayName : store.state.loginModule.user.displayName,
+        timestamp: Timestamp.now(),
+        description: tripDesc.value,
         toCountry: toCountry.value,
         toState: toState.value,
+        fromCountry : fromCountry.value,
+        fromState : fromState.value,
+        fromDate : fromDate.value,
+        toDate  : toDate.value
       };
-      await setDoc(updateref, data, { merge: true });
+      await addDoc(collection(db, "plans"), {
+          ...data,
+        }).then((d) => {
+          store.commit("plansModule/addPlans", { ...data, docID: d.id });
+        });
+
       emit("closePlan");
     };
+
     let handleClose = () => {
       emit("closePlan");
     };
@@ -183,7 +200,7 @@ export default {
       countries,
       toAllstates,
       selectFromState,
-      selectToState
+      selectToState,
     };
   },
 };

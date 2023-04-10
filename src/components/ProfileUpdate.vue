@@ -12,37 +12,81 @@
         /></el-icon>
       </div> -->
       <div class="add_image">
-        <div  v-if="postImg">
-          <img :src="postImg" class="postImgtemp" @click="$refs.filepickerRef.click()" />
+        <div v-if="postImg">
+          <img
+            :src="postImg"
+            class="postImgtemp"
+            @click="$refs.filepickerRef.click()"
+          />
           <el-icon size="20" @click="removeImage" class="remove_image">
             <CircleClose />
           </el-icon>
         </div>
-        <p v-else @click="$refs.filepickerRef.click()"> Choose Profile Picture</p>
-        <input type="file" class="input_hidden" ref="filepickerRef" @change="setImg" />
+        <p v-else @click="$refs.filepickerRef.click()">
+          Choose Profile Picture
+        </p>
+        <input
+          type="file"
+          class="input_hidden"
+          ref="filepickerRef"
+          @change="setImg"
+        />
       </div>
       <div class="location">
         <h4>Current Location :</h4>
-        <el-select v-model="selectedCountry" class="location_input" placeholder="Select Country" @change="selectState">
-          <el-option class="location_input" v-for="item in countries" :key="item.name" :label="item.name"
-            :value="item.name" />
+        <el-select
+          v-model="selectedCountry"
+          class="location_input"
+          placeholder="Select Country"
+          @change="selectState"
+        >
+          <el-option
+            class="location_input"
+            v-for="item in countries"
+            :key="item.name"
+            :label="item.name"
+            :value="item.name"
+          />
         </el-select>
-        <el-select v-model="selectedState" class="m-2" placeholder="Select State">
-          <el-option v-for="item in states" :key="item.name" :label="item.name" :value="item.name" />
+        <el-select
+          v-model="selectedState"
+          class="m-2"
+          placeholder="Select State"
+        >
+          <el-option
+            v-for="item in states"
+            :key="item.name"
+            :label="item.name"
+            :value="item.name"
+          />
         </el-select>
       </div>
       <div class="tags">
         <h4>Tags :</h4>
         <div class="tags_button">
-          <el-button v-for="(item, index) in defaultTags" :key="index" type="primary" :plain='isPlain(item)'
-            @click="selectedTagsFunc(item)">{{ item }} </el-button>
+          <el-button
+            v-for="(item, index) in defaultTags"
+            :key="index"
+            type="primary"
+            :plain="isPlain(item)"
+            @click="selectedTagsFunc(item)"
+            >{{ item }}
+          </el-button>
         </div>
       </div>
       <div>
         <h4>Description :</h4>
-        <el-input v-model="description" :rows="5" type="textarea" placeholder="Please input" maxlength="250" />
+        <el-input
+          v-model="description"
+          :rows="5"
+          type="textarea"
+          placeholder="Please input"
+          maxlength="250"
+        />
       </div>
-      <el-button type="success" class="submit_btn" round @click="submitDetails">Submit</el-button>
+      <el-button type="success" class="submit_btn" round @click="submitDetails"
+        >Submit</el-button
+      >
     </div>
   </div>
 </template>
@@ -61,31 +105,51 @@ export default {
   props: ["profileData", "profileID"],
   setup(props, { emit }) {
     onMounted(async () => {
-     await axios.get(
-        "https://countriesnow.space/api/v0.1/countries/currency"
-      ).then((getData) => {
-        countries.value = getData.data.data;
-      });
-      if(selectedCountry.value){
-        let body = { 'country': selectedCountry.value };
-      let stateData = await axios.post(
-        `https://countriesnow.space/api/v0.1/countries/states`,
-        body
-      );
-      states.value = stateData.data.data.states;
+      await axios
+        .get("https://countriesnow.space/api/v0.1/countries/currency")
+        .then((getData) => {
+          countries.value = getData.data.data;
+        });
+      if (selectedCountry.value) {
+        let body = { country: selectedCountry.value };
+        let stateData = await axios.post(
+          `https://countriesnow.space/api/v0.1/countries/states`,
+          body
+        );
+        states.value = stateData.data.data.states;
       }
     });
-    let postImg = ref(props.profileData.profilePic ? props.profileData.profilePic : null);
+    let postImg = ref(
+      props.profileData.profilePic ? props.profileData.profilePic : null
+    );
     let selectedCountry = ref(props.profileData.country);
     let selectedState = ref(props.profileData.state);
     let countries = ref([]);
-    let states = ref([])
+    let states = ref([]);
     let picToBeUploaded = ref(null);
-    let defaultTags = ['Vegetarian', 'No-Drinking', 'Non-smoker', 'Full time Travelling', 'Digital Nomad', 'Beach', 'Mountain', 'Food', 'Pets', 'Yoga', 'Gym', 'Spiritual'];
-    let selectedTags = ref(props.profileData.tags?props.profileData.tags:[]);
-    let description = ref(props.profileData.description)
+    let defaultTags = [
+      "Vegetarian",
+      "No-Drinking",
+      "Non-smoker",
+      "Full time Travelling",
+      "Digital Nomad",
+      "Beach",
+      "Mountain",
+      "Food",
+      "Pets",
+      "Yoga",
+      "Gym",
+      "Spiritual",
+    ];
+    let selectedTags = ref(
+      props.profileData.tags ? props.profileData.tags : []
+    );
+    let description = ref(props.profileData.description);
     let updateref = doc(db, "users", props.profileID);
-    let profilePicRef = storageReference(storage, "profilePics/" + props.profileID)
+    let profilePicRef = storageReference(
+      storage,
+      "profilePics/" + props.profileID
+    );
     let setImg = (e) => {
       picToBeUploaded.value = e.target.files[0];
       var oFReader = new FileReader();
@@ -99,8 +163,8 @@ export default {
       picToBeUploaded.value = null;
     };
     let selectState = async () => {
-      selectedState.value = '';
-      let body = { 'country': selectedCountry.value };
+      selectedState.value = "";
+      let body = { country: selectedCountry.value };
       let stateData = await axios.post(
         `https://countriesnow.space/api/v0.1/countries/states`,
         body
@@ -109,27 +173,26 @@ export default {
     };
 
     let selectedTagsFunc = (val) => {
-      let i = selectedTags.value.indexOf(val)
+      let i = selectedTags.value.indexOf(val);
       if (i >= 0) {
-        selectedTags.value.splice(i, 1)
+        selectedTags.value.splice(i, 1);
+      } else if (selectedTags.value.length <= 2) {
+        selectedTags.value.push(val);
       }
-      else if(selectedTags.value.length<=2){
-        selectedTags.value.push(val)
-      }
-    }
+    };
     let isPlain = (item) => {
       if (selectedTags.value.indexOf(item) >= 0) {
-        return false
+        return false;
       }
-      return true
-    }
+      return true;
+    };
     let submitDetails = async () => {
       let data = {
         description: description.value,
         country: selectedCountry.value,
         state: selectedState.value,
         tags: [...selectedTags.value],
-      }
+      };
       if (picToBeUploaded.value) {
         let uploadTask = await uploadBytesResumable(
           profilePicRef,
@@ -139,16 +202,12 @@ export default {
           data.profilePic = downloadURL;
         });
       }
-      await setDoc(
-        updateref,
-        data,
-        { merge: true }
-      );
-      emit('closeUpdate')
-    }
+      await setDoc(updateref, data, { merge: true });
+      emit("closeUpdate");
+    };
     let handleClose = () => {
-      emit('closeUpdate')
-    }
+      emit("closeUpdate");
+    };
     return {
       setImg,
       postImg,
@@ -163,7 +222,7 @@ export default {
       selectedTagsFunc,
       description,
       submitDetails,
-      handleClose
+      handleClose,
     };
   },
 };

@@ -73,7 +73,6 @@
       <div class="location_of">
         <el-icon size="20"><Calendar /></el-icon>
         <b>Date : </b>
-
       </div>
       <el-date-picker
         v-model="value3"
@@ -84,8 +83,8 @@
       />
     </div>
     <div class="your_plan" @click="handleOpenPlan">
-        <el-icon><Plus /></el-icon>
-        <p>Add your travel plan</p>
+      <el-icon><Plus /></el-icon>
+      <p>Add your travel plan</p>
     </div>
   </div>
 </template>
@@ -96,7 +95,7 @@ import axios from "axios";
 
 export default {
   name: "travel-filter",
-  
+
   setup(prop, { emit }) {
     onMounted(() => {
       axios
@@ -111,7 +110,7 @@ export default {
     let toState = ref(null);
     let countries = ref([]);
     let states = ref([]);
-    const value3 = ref('')
+    const value3 = ref("");
     let selectState = async () => {
       emit("filterTravel", fromCountry.value, fromState, toCountry, toState);
       fromState.value = "";
@@ -124,18 +123,22 @@ export default {
     };
 
     let stateChanged = () => {
-        emit("filterTravel", fromCountry.value, fromState, toCountry, toState);
-        };
-    let handleOpenPlan = () =>{
-        emit('openPlan')
-    }
+      emit("filterTravel", fromCountry.value, fromState, toCountry, toState);
+    };
+    let handleOpenPlan = () => {
+      emit("openPlan");
+    };
     return {
       selectState,
       fromCountry,
       fromState,
       countries,
       states,
-      stateChanged,toCountry, toState, value3, handleOpenPlan
+      stateChanged,
+      toCountry,
+      toState,
+      value3,
+      handleOpenPlan,
     };
   },
 };
@@ -161,22 +164,22 @@ export default {
   column-gap: 15px;
   margin: 20px;
 }
-.location_of{
-    display: flex;
-    align-items: center;
-    width: 80px;
-    column-gap: 5px;
+.location_of {
+  display: flex;
+  align-items: center;
+  width: 80px;
+  column-gap: 5px;
 }
-.your_plan{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    color: green;
-    column-gap: 5px;
-    cursor: pointer;
+.your_plan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color: green;
+  column-gap: 5px;
+  cursor: pointer;
 }
-.your_plan:hover{
-    text-decoration: underline;
+.your_plan:hover {
+  text-decoration: underline;
 }
 </style>

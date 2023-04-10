@@ -1,44 +1,44 @@
 <template>
     <div class="main_containt box_style buddy_card">
-      <el-avatar :size="100" fit="fit" :src="buddyDetails.profilePic" />
+      <el-avatar :size="100" fit="fit" :src="planDetails.profilePic" />
       <div class="buddy_details">
         <div>
           <router-link :to="{
             path: '/users',
             query: {
-              id: `${buddyDetails.uid}`,
+              id: `${planDetails.userID}`,
               page: 'overview',
             },
           }">
-          <h4>{{ buddyDetails.displayName }}</h4>
+          <h4>{{ planDetails.displayName }}</h4>
       </router-link>
   
-          <p>{{ buddyDetails.numOfFollowers }} followers</p>
+          <p>{{ planDetails.numOfFollowers }} followers</p>
           <p>
               <el-icon size="20"><Location /></el-icon>
             {{
-              buddyDetails.state
-                ? `${buddyDetails.state},${buddyDetails.country}`
-                : buddyDetails.country
+              planDetails.fromState
+                ? `${planDetails.fromState},${planDetails.fromCountry}`
+                : planDetails.fromCountry
             }}
           </p>
         </div>
         <div class="tags">
-          <el-button
-            v-for="(title, index) in buddyDetails.tags"
+          <!-- <el-button
+            v-for="(title, index) in planDetails.tags"
             type="primary"
             plain
             :key="index"
             size="small"
             >{{ title }}</el-button
-          >
+          > -->
         </div>
       </div>
       <div class="follow_div">
         <el-button
           v-if="
             isFollowing &&
-            buddyDetails.uid !== store.state.loginModule.user.userID
+            planDetails.uid !== store.state.loginModule.user.userID
           "
           class="follow_btn"
           type="success"
@@ -47,7 +47,7 @@
           >Following..</el-button
         >
         <el-button
-          v-else-if="buddyDetails.uid !== store.state.loginModule.user.userID"
+          v-else-if="planDetails.uid !== store.state.loginModule.user.userID"
           class="follow_btn"
           type="success"
           plain
@@ -63,18 +63,18 @@
   import { computed } from "vue";
   export default {
     name: "travel-card",
-    props: ["buddyDetails"],
+    props: ["planDetails"],
     setup(props) {
       let store = useStore();
       let isFollowing = computed(() =>
-        store.getters["loginModule/isFollowing"](props.buddyDetails.uid)
+        store.getters["loginModule/isFollowing"](props.planDetails.userID)
       );
       let handleFollow = async () => {
-        store.commit("loginModule/handleFollowing", props.buddyDetails.uid);
+        store.commit("loginModule/handleFollowing", props.planDetails.userID);
       };
       
       let handleUnfollow = () =>{
-        store.commit("loginModule/handleUnfollow", props.buddyDetails.uid);
+        store.commit("loginModule/handleUnfollow", props.planDetails.userID);
       }
       return { store, isFollowing, handleFollow, handleUnfollow };
     },
