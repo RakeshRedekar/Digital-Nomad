@@ -32,16 +32,23 @@ export default {
     let users = ref([]);
     let filteredPlans = ref([]);
     let isAddPlan = ref(false);
-    let filterTravel = (userCountry, userState) => {
-      if (userState) {
-        filteredPlans.value = users.value.filter((user) => {
-          return user.country == userCountry && user.state == userState;
-        });
-      } else {
-        filteredPlans.value = users.value.filter((user) => {
-          return user.country == userCountry;
-        });
-      }
+    let filterTravel = (fromCountry, fromState, toCountry, toState) => {
+      let a = fromCountry?fromCountry:'';
+      let b = fromState?fromState:'';
+      let c = toCountry?toCountry:'';
+      let d = toState?toState:'';
+      filteredPlans.value = plans.value.filter((plan)=>plan.fromCountry.includes(a) && plan.toCountry.includes(c)&&plan.fromState.includes(b)&&plan.toState.includes(d))
+      // if (userState) {
+      //   filteredPlans.value = users.value.filter((user) => {
+      //     return user.country == userCountry && user.state == userState;
+      //   });
+      // } else {
+      //   filteredPlans.value = users.value.filter((user) => {
+      //     return user.country == userCountry;
+      //   });
+      // }
+      let str = "hello"
+      console.log(str.includes(null));
     };
 
     return { users, filterTravel, filteredPlans, isAddPlan, plans };

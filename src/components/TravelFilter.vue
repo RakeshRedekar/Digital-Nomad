@@ -46,6 +46,7 @@
         class="location_input"
         placeholder="Select Country"
         @change="selectState"
+        
       >
         <el-option
           class="location_input"
@@ -112,8 +113,7 @@ export default {
     let states = ref([]);
     const value3 = ref("");
     let selectState = async () => {
-      emit("filterTravel", fromCountry.value, fromState, toCountry, toState);
-      fromState.value = "";
+      emit("filterTravel", fromCountry.value, fromState.value, toCountry.value, toState.value);
       let body = { country: fromCountry.value };
       let stateData = await axios.post(
         `https://countriesnow.space/api/v0.1/countries/states`,
@@ -123,7 +123,7 @@ export default {
     };
 
     let stateChanged = () => {
-      emit("filterTravel", fromCountry.value, fromState, toCountry, toState);
+      emit("filterTravel", fromCountry.value, fromState.value, toCountry.value, toState.value);
     };
     let handleOpenPlan = () => {
       emit("openPlan");
