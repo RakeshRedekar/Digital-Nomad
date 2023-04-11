@@ -12,7 +12,7 @@
         v-model="fromCountry"
         class="location_input"
         placeholder="Select Country"
-        @change="selectState"
+        @change="fromCountrySelected"
       >
         <el-option
           class="location_input"
@@ -23,13 +23,13 @@
         />
       </el-select>
       <el-select
-        v-model="fromState"
+        v-model="fromStateSelected"
         class="m-2"
         placeholder="Select State"
         @change="stateChanged"
       >
         <el-option
-          v-for="item in states"
+          v-for="item in fromStates"
           :key="item.name"
           :label="item.name"
           :value="item.name"
@@ -45,8 +45,7 @@
         v-model="toCountry"
         class="location_input"
         placeholder="Select Country"
-        @change="selectState"
-        
+        @change="toCountrySelected"
       >
         <el-option
           class="location_input"
@@ -63,7 +62,7 @@
         @change="stateChanged"
       >
         <el-option
-          v-for="item in states"
+          v-for="item in toStates"
           :key="item.name"
           :label="item.name"
           :value="item.name"
@@ -76,11 +75,12 @@
         <b>Date : </b>
       </div>
       <el-date-picker
-        v-model="value3"
+        v-model="planDate"
         type="month"
         placeholder="month"
         format="MMMM,YYYY"
-        value-format="MM,YYYY"
+        value-format="YYYY-MM-DD"
+        @change="stateChanged"
       />
     </div>
     <div class="your_plan" @click="handleOpenPlan">
@@ -110,34 +110,69 @@ export default {
     let toCountry = ref(null);
     let toState = ref(null);
     let countries = ref([]);
-    let states = ref([]);
-    const value3 = ref("");
-    let selectState = async () => {
-      emit("filterTravel", fromCountry.value, fromState.value, toCountry.value, toState.value);
+    let fromStates = ref([]);
+    let toStates = ref([]);
+    const planDate = ref(null);
+    let fromCountrySelected = async () => {
+      fromState.value = null;
+      emit(
+        "filterTravel",
+        fromCountry.value,
+        fromState.value,
+        toCountry.value,
+        toState.value,
+        planDate.value
+      );
       let body = { country: fromCountry.value };
       let stateData = await axios.post(
         `https://countriesnow.space/api/v0.1/countries/states`,
         body
       );
-      states.value = stateData.data.data.states;
+      fromStates.value = stateData.data.data.states;
+    };
+    let toCountrySelected = async () => {
+      toState.value = null;
+      emit(
+        "filterTravel",
+        fromCountry.value,
+        fromState.value,
+        toCountry.value,
+        toState.value,
+        planDate.value
+      );
+      let body = { country: toCountry.value };
+      let stateData = await axios.post(
+        `https://countriesnow.space/api/v0.1/countries/states`,
+        body
+      );
+      toStates.value = stateData.data.data.states;
     };
 
     let stateChanged = () => {
-      emit("filterTravel", fromCountry.value, fromState.value, toCountry.value, toState.value);
+      emit(
+        "filterTravel",
+        fromCountry.value,
+        fromState.value,
+        toCountry.value,
+        toState.value,
+        planDate.value
+      );
     };
     let handleOpenPlan = () => {
       emit("openPlan");
     };
     return {
-      selectState,
+      fromCountrySelected,
+      toCountrySelected,
       fromCountry,
       fromState,
       countries,
-      states,
+      fromStates,
+      toStates,
       stateChanged,
       toCountry,
       toState,
-      value3,
+      planDate,
       handleOpenPlan,
     };
   },
