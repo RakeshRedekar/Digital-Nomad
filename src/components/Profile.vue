@@ -33,13 +33,15 @@
         >
           <h4>Posts</h4>
         </router-link>
-        <router-link to="/profile/travel" class="li_item">
+        <router-link :to="{ path: '/profile', query: { id: profileID, page: 'plans' } }" class="li_item">
           <h4>Travel Plan</h4>
         </router-link>
       </ul>
     </div>
     <ProfilePosts v-if="activeClass === 'posts'" :profileID="profileID" />
+    <ProfilePlans v-if="activeClass === 'plans'" :profileID="profileID"/>
     <ProfileOverview :profileData="profileData" v-else />
+    
     <ProfileUpdate :profileData="profileData" v-if="updatePage" :profileID="profileID" @closeUpdate = "closeUpdate"/>
     <!-- <RouterView></RouterView> -->
   </div>
@@ -51,13 +53,14 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import ProfileOverview from "./ProfileOverview.vue";
 import ProfilePosts from "./ProfilePosts.vue";
+import ProfilePlans from "./ProfilePlans.vue";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../main";
 import ProfileUpdate from "./ProfileUpdate.vue";
 import { useStore } from "vuex";
 export default {
   name: "profile",
-  components: { ProfileOverview, ProfilePosts, ProfileUpdate },
+  components: { ProfileOverview, ProfilePosts, ProfileUpdate, ProfilePlans },
   setup() {
     let router = useRoute();
     let store = useStore()
@@ -66,6 +69,10 @@ export default {
       const docSnap = await getDoc(docRef);
       profileData.value = docSnap.data();
       profileID.value = router.query.id;
+      
+            if(!store.state.plansModule.plans){
+                await store.dispatch("plansModule/getPlans");
+            }
     });
     let profileID = ref("");
     let profileData = ref({});
