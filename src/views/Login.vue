@@ -46,7 +46,8 @@ export default {
         .then(() => {
           router.push("/home");
         })
-        .catch((err) => console.log(err));
+        .catch((err) =>{console.log(err)
+          } );
     };
 
     return { err, handleSubmit, email, password };

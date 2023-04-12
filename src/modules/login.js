@@ -21,6 +21,7 @@ export const loginModule = {
         userID: id.uid,
         profilePic : profilePic
       };
+      console.log("state.user: ", state.user);
       if (likes) {
         state.likedPosts = likes;
       }
@@ -120,12 +121,17 @@ export const loginModule = {
             following.push(doc.id);
           });
           console.log("User: ", user.user);
-          let profilePic = await getDownloadURL(storageRef(storage, `profilePics/${user.user.uid}`))
+          try {
+            var profilePic = await getDownloadURL(storageRef(storage, `profilePics/${user.user.uid}`))
+          } catch (error) {
+            console.log(error);
+          }
+          
           commit("setUser", {
             id: user.user,
             likes: likedPosts,
             following: following,
-            profilePic:profilePic,
+            profilePic:profilePic?profilePic:'#',
           });
         }
       );

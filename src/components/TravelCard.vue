@@ -1,6 +1,6 @@
 <template>
   <div class="main_containt box_style buddy_card">
-    <el-avatar :size="80" fit="fit" :src="planDetails.profilePic?planDetails.profilePic:'#'" />
+    <el-avatar :size="80" fit="fit" :src="planDetails.profilePic" />
     <div class="buddy_details">
       <div>
         <router-link
