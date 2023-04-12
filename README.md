@@ -1,7 +1,7 @@
 ## Travel Buddy app using Vue.js 3 (Composition API) and Firebase.
 
 
-![Home page](![image](https://user-images.githubusercontent.com/96696734/231467729-ad5e1784-ac08-41fc-848c-5a756aeb21c6.png))
+![Home](https://user-images.githubusercontent.com/96696734/231476924-73c4c3a4-90e5-42a7-b771-9d566cd6058a.jpg)
 <center><figcaption>Travel Buddy</figcaption></center>
 
 ![Find travel buddy](![image](https://user-images.githubusercontent.com/96696734/231467967-946375b6-3e63-4c82-af66-75f506512c9d.png))
