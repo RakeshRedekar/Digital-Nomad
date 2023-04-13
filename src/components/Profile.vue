@@ -39,7 +39,7 @@
       </ul>
     </div>
     <ProfilePosts v-if="activeClass === 'posts'" :profileID="profileID" />
-    <ProfilePlans v-if="activeClass === 'plans'" :profileID="profileID"/>
+    <ProfilePlans v-else-if="activeClass === 'plans'" :profileID="profileID"/>
     <ProfileOverview :profileData="profileData" v-else />
     
     <ProfileUpdate :profileData="profileData" v-if="updatePage" :profileID="profileID" @closeUpdate = "closeUpdate"/>

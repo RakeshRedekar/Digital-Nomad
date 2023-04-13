@@ -1,6 +1,10 @@
 <template>
   <div class="navigation">
+    <img src="../../public/icons/icon.png" class="app_logo"/>
     <ul class="navigationUL">
+
+      
+
       <router-link to="/home" exact class="li_item">
         <el-icon size="25"><HomeFilled /></el-icon>
         <p><b>Home</b></p>
@@ -41,6 +45,13 @@ export default {
 </script>
 
 <style scoped>
+.app_logo{
+  height: 76px;
+  position: absolute;
+margin: 0px 50px;
+border-radius: 38px;
+
+}
 .navigation {
   width: 100vw;
   position: sticky;

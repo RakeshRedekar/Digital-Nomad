@@ -17,12 +17,12 @@
     </div>
     <div class="add_attachments">
       <div>
-        <img src="../images/video_img.png" />
+        <img src="../../public/icons/video_img.png" />
 
         <b>Add Video</b>
       </div>
       <div @click="$refs.filepickerRef.click()" >
-        <img src="../images/add_image.png" />
+        <img src="../../public/icons/add_image.png" />
         <input
           type="file"
           class="input_hidden"
@@ -37,7 +37,7 @@
           v-click-outside="onClickOutside"
           class="location_display"
         >
-          <img src="../images/location.png" /><b v-if="selectedCountry">{{
+          <img src="../../public/icons/location.png" /><b v-if="selectedCountry">{{
             selectedState? `${selectedState},${selectedCountry}`:selectedCountry
           }}</b>
           <b v-else>Add Location</b>
