@@ -1,6 +1,6 @@
 ## Travel Buddy app using Vue.js 3 (Composition API) and Firebase.
 
-[Live App](https://digitalnomad-4956f.web.app/login)
+- #[Live App](https://digitalnomad-4956f.web.app/login)
 
 ![Home](https://user-images.githubusercontent.com/96696734/231476924-73c4c3a4-90e5-42a7-b771-9d566cd6058a.jpg)
 
